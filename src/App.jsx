@@ -10,6 +10,7 @@ import Register2 from "./Pages/Register/Register2";
 import Login from "./Pages/Login/Login";
 // import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute.jsx";
 import UserTokenContextProvider from "./Context/userTokenContext.jsx";
+import RegisterContextProvider from "./Context/registerContext";
 import HousingWork from "./Pages/Housing&Work/Housing-Work";
 import Age from "./Pages/Age/Age";
 import PhoneNumber from "./Pages/PhoneNumber/PhoneNumber";
@@ -39,7 +40,9 @@ function App() {
   return (
     <>
       <UserTokenContextProvider>
+        <RegisterContextProvider>
         <RouterProvider router={routing}></RouterProvider>
+        </RegisterContextProvider>
       </UserTokenContextProvider>
     </>
   );

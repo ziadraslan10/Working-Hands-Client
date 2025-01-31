@@ -9,25 +9,27 @@ function Housing_Work() {
   let [isLoading, setIsLoading] = useState(false);
 
   let validationSchema = Yup.object().shape({
-    Housing: Yup.string().required("Required"),
-    jop_title: Yup.string()
+    livesin: Yup.string().required("Required"),
+    jobtitle: Yup.string()
       .required("Required")
       .min(4, "Too Short")
       .max(30, "Too Long"),
     height: Yup.string().required("Required"),
   });
 
-  function handelRegister() {
+  function handelRegister(values) {
     setIsLoading(true);
-    localStorage.setItem("userToken", "done");
+    let a = localStorage.getItem("redisterData");
+    a = JSON.stringify({ ...JSON.parse(a), ...values });
+    localStorage.setItem("redisterData", JSON.stringify({ ...JSON.parse(a) }));
     navigate("/age");
     setIsLoading(false);
   }
 
   let formk = useFormik({
     initialValues: {
-      Housing: "",
-      jop_title: "",
+      livesin: "",
+      jobtitle: "",
       height: "",
     },
     validationSchema,
@@ -43,52 +45,52 @@ function Housing_Work() {
         </h2>
 
         <form onSubmit={formk.handleSubmit}>
-          {/*                            Housing                       */}
+          {/*                            livesin                       */}
           <div className="mb-5">
             <label
-              htmlFor="Housing"
+              htmlFor="livesin"
               className="block mb-3 text-sm font-medium text-gray-900 "
             >
               السكن
             </label>
             <input
               type="text"
-              name="Housing"
-              id="Housing"
-              value={formk.values.Housing}
+              name="livesin"
+              id="livesin"
+              value={formk.values.livesin}
               onChange={formk.handleChange}
               onBlur={formk.handleBlur}
               placeholder=""
               className=" bg-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5   dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
-          {formk.errors.Housing && formk.touched.Housing && (
+          {formk.errors.livesin && formk.touched.livesin && (
             <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">
-              <span className="font-medium">{formk.errors.Housing}</span>
+              <span className="font-medium">{formk.errors.livesin}</span>
             </div>
           )}
-          {/*                            jop_title                       */}
+          {/*                            jobtitle                       */}
           <div className="mb-5">
             <label
-              htmlFor="jop_title"
+              htmlFor="jobtitle"
               className="block mb-2 text-sm font-medium text-gray-900 "
             >
               الاسم الوظيفي
             </label>
             <input
               type="text"
-              name="jop_title"
-              id="jop_title"
-              value={formk.values.jop_title}
+              name="jobtitle"
+              id="jobtitle"
+              value={formk.values.jobtitle}
               onChange={formk.handleChange}
               onBlur={formk.handleBlur}
               placeholder=""
               className=" bg-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5   dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
           </div>
-          {formk.errors.jop_title && formk.touched.jop_title && (
+          {formk.errors.jobtitle && formk.touched.jobtitle && (
             <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">
-              <span className="font-medium">{formk.errors.jop_title}</span>
+              <span className="font-medium">{formk.errors.jobtitle}</span>
             </div>
           )}
           {/*                            height                      */}

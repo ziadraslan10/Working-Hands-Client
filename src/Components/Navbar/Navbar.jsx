@@ -10,7 +10,6 @@ import {
   FaTiktok,
 } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
-import "./Navbar.css";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { UserTokenContext } from "../../Context/userTokenContext";
 
@@ -43,16 +42,14 @@ const Navbar = () => {
 
             {/*                login && register                  */}
             {!userLogin && (
-              <div>
+              <div className="flex justify-center items-center gap-2">
                 <NavLink
                   to="/login"
-                  className="hover:text-sky-700 py-2 px-5 mx-1 "
                 >
                   تسجيل الدخول
                 </NavLink>
                 <NavLink
                   to="/register"
-                  className="hover:text-sky-700 py-2 px-5 mx-1 "
                 >
                   انشاء حساب
                 </NavLink>

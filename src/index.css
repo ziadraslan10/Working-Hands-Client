@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
-.main-color{
-  background-color: #3C8DAD;
+.main-color {
+  background-color: #3c8dad;
+}
+body {
+  font-family: "Cairo", serif;
 }

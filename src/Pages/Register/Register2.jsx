@@ -15,9 +15,11 @@ function Register2() {
       .oneOf([Yup.ref("password")], "Passwords must match"),
   });
 
-  function handelRegister() {
+  function handelRegister(values) {
     setIsLoading(true);
-    localStorage.setItem("userToken", "done");
+    let a = localStorage.getItem("redisterData");
+    a = JSON.stringify({ ...JSON.parse(a), ...values });
+    localStorage.setItem("redisterData", JSON.stringify({ ...JSON.parse(a) }));
     navigate("/housing-work");
     setIsLoading(false);
   }

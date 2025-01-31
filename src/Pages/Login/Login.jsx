@@ -1,24 +1,35 @@
 /* eslint-disable no-unused-vars */
+import axios from "axios";
 import { useFormik } from "formik";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 function Login() {
   let navigate = useNavigate();
-  let [isLoading, setIsLoading] = useState(false);
+  const [isLoding, setisLoding] = useState(false);
+  const [apiErr, setapiErr] = useState(null);
 
   let validationSchema = Yup.object().shape({
     email: Yup.string().email("Invalid email").required("Required"),
-    password: Yup.string()
-      .required("Required"),
+    password: Yup.string().required("Required"),
   });
 
-  function handelLogin() {
-    setIsLoading(true);
-    localStorage.setItem("userToken", "done");
-    navigate("/");
-    setIsLoading(false);
+  function handleLogin(values) {
+    setisLoding(true);
+    axios
+      .post(`${import.meta.env.VITE_BASE_URL}/api/users/login`, values)
+      .then((res) => {
+        if (res.data.message == "Login successful") {
+          localStorage.setItem("userToken", `${res.data.token}`);
+          navigate("/");
+          setisLoding(false);
+        }
+      })
+      .catch((err) => {
+        setapiErr(err.response.data.message);
+        setisLoding(false);
+      });
   }
 
   let formk = useFormik({
@@ -27,16 +38,21 @@ function Login() {
       password: "",
     },
     validationSchema,
-    onSubmit: handelLogin,
+    onSubmit: handleLogin,
   });
 
   return (
     <>
-      <div className="md:p-20 py-14 px-8  rounded-3xl  max-w-xl mx-auto main-color">
+      <div className="md:p-20 py-14 px-8 my-10  rounded-3xl  max-w-xl mx-auto main-color">
 
         <h2 className="text-3xl font-bold mb-6 flex justify-center">
           تسجيل الدخول
         </h2>
+        {apiErr && (
+          <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">
+            <span className="font-medium">{apiErr}</span>
+          </div>
+        )}
         <form onSubmit={formk.handleSubmit}>
           {/*                            email                      */}
           <div className="mb-5">
@@ -93,7 +109,7 @@ function Login() {
                 type="submit"
                 className="  bg-white hover:bg-gray-300 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm w-auto px-5 py-3 text-center  "
               >
-                {isLoading ? (
+                {isLoding ? (
                   <i className="fa-solid fa-spinner fa-spin fa-lg"></i>
                 ) : (
                   "تسجيل الدخول"
@@ -102,13 +118,13 @@ function Login() {
             </div>
             <div className="flex justify-center text-white mt-2">
               <p className="text-sm md:text-base ">
-                ليس لديك حساب؟  
+                ليس لديك حساب؟
                 <span>
                   <Link
                     to="/register"
                     className=" hover:text-slate-300 hover:underline font-semibold pr-1"
                   >
-                    انشاء حساب 
+                    انشاء حساب
                   </Link>
                 </span>
               </p>

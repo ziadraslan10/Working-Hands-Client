@@ -14,9 +14,13 @@ function Age() {
       year: Yup.string().required("Required").max(4, "Too Long").min(4, "Too Short"),
   });
 
-  function handelRegister() {
+  function handelRegister(values) {
     setIsLoading(true);
-    localStorage.setItem("userToken", "done");
+    let a = localStorage.getItem("redisterData");
+    let b = `${values.day}-${values.month}-${values.year}`;
+    a = JSON.stringify({ ...JSON.parse(a), birthdate: b });
+    localStorage.setItem("redisterData", JSON.stringify({ ...JSON.parse(a) }));
+    
     navigate("/phoneNumber");
     setIsLoading(false);
   }
