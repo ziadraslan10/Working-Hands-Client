@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useState } from "react";
+import mainLogo from "../../assets/الايدي العاملة 1.png";
 import {
   FaYoutube,
   FaInstagram,
@@ -29,13 +30,13 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 bg-sky-500 py-5 px-10 lg:px-20 z-50">
+    <nav className=" bg-sky-500 py-5 px-10 lg:px-20 z-50">
       <div className="flex justify-between items-center">
-        <div className="flex items-center">
-          <Link to="/">
-            ❤️
-          </Link>
-        </div>
+      <div className="flex items-center rounded-full">
+  <Link to="/">
+    <img src={mainLogo} alt="Main Logo" className="w-10 h-10 rounded-full" />
+  </Link>
+</div>
 
         <div className="hidden md:flex space-x-2 text-white">
           <div className="flex text-lg items-center text-black ">
@@ -99,27 +100,10 @@ const Navbar = () => {
       </div>
 
       {menuOpen && (
-        <div className="md:hidden bg-gray-800 py-4">
+        <div className="md:hidden bg-gray-800 py-4 ">
           <div className="px-4 space-y-4">
 
-            {/*                        icons                  */}
-            <div className="flex justify-center items-center bg-slate-200 py-2 rounded-md">
-              <div className="p-1 text-lg hover:text-sky-600 cursor-pointer text-blue-700">
-                <FaFacebook />
-              </div>
-              <div className="p-1 text-lg hover:text-sky-600 cursor-pointer">
-                <FaTiktok />
-              </div>
-              <div className="p-1 text-lg hover:text-sky-600 cursor-pointer text-red-600">
-                <FaYoutube />
-              </div>
-              <div className="p-1 text-lg hover:text-sky-600 cursor-pointer text-red-400">
-                <FaInstagram />
-              </div>
-              <div className="p-1 text-lg text-black hover:text-sky-600 cursor-pointer">
-                <FaSquareXTwitter />
-              </div>
-            </div>
+
 
             {/*                       logout                   */}
             {userLogin && (
@@ -127,7 +111,7 @@ const Navbar = () => {
                 onClick={() => deleteToken()}
                 className="flex cursor-pointer rounded-md bg-slate-200 justify-center text-center hover:text-sky-600 py-2 "
               >
-                <a className="">Sign Out</a>
+                <a className="">تسجيل الخروج</a>
                 <div className="flex px-2 justify-center items-center font-light">
                   {" "}
                   <FaSignInAlt />

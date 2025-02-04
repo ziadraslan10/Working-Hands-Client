@@ -7,7 +7,7 @@ import Footer from '../Footer/Footer'
 function Layout() {
   return <>
     <Navbar />
-    <div className="container mx-auto mt-20 pt-2 px-5 ">
+    <div className="container mx-auto my-10 pt-2 px-5">
     <Outlet />
     </div>
     <Footer />

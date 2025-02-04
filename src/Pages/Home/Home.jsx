@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import MainSlider from "../../Components/MainSlider/MainSlider";
 import axios from "axios";
 import Loading from "../../Components/Loading/Loading";
+
 function Home() {
   let navigate = useNavigate();
   const [mainData, setMainData] = useState(null);
@@ -27,6 +28,10 @@ function Home() {
     }
     getMainData();
   }, []);
+
+  const Serach = () => {
+    navigate("/search");
+  };
 
   return (
     <>
@@ -70,12 +75,11 @@ function Home() {
           >
             هل نسيت كلمة المرور؟
           </Link>
-          <button className="bg-gradient-to-r from-emerald-400 to-lime-600 text-sm py-2 px-3 rounded-lg">
+          <button onClick={Serach} className="bg-gradient-to-r from-emerald-400 to-lime-600 text-sm py-2 px-3 rounded-lg">
             البحث عن الرقم الخاص
           </button>
         </div>
         <div className="my-6 mx-2 space-y-2">
-          <p className="text-start text-2xl font-bold">اعلانات</p>
           <MainSlider />
         </div>
       </div>

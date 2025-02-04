@@ -22,7 +22,7 @@ function Login() {
       .then((res) => {
         if (res.data.message == "Login successful") {
           localStorage.setItem("userToken", `${res.data.token}`);
-          navigate("/");
+          navigate("/userdata");
           setisLoding(false);
         }
       })

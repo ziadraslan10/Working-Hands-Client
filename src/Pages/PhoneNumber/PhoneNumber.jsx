@@ -1,113 +1,121 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import { useFormik } from "formik";
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import * as Yup from "yup";
+import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { RegisterContext } from "../../Context/registerContext";
 
 function PhoneNumber() {
   let navigate = useNavigate();
+  let {setidCode, registerData, setRegisterData } = useContext(RegisterContext);
   let [isLoading, setIsLoading] = useState(false);
   let [APIError, setAPIError] = useState("");
-
-  let validationSchema = Yup.object().shape({
-    privatenumber: Yup.string().required("Required"),
-    phonenumber: Yup.string().required("Required"),
-  });
-
-  function handelRegister(values) {
+  const handleRegister = async (event) => {
+    event.preventDefault();
     setIsLoading(true);
-    let a = localStorage.getItem("redisterData");
-    a = JSON.stringify({ ...JSON.parse(a), ...values });
-    localStorage.setItem("redisterData", JSON.stringify({ ...JSON.parse(a) }));
-    console.log(JSON.parse(a));
-    //
-    axios
-    .post(`${import.meta.env.VITE_BASE_URL}/api/requests/addrequest`, JSON.parse(a))
-    .then((res) => {
-      if(res.data.message == "success"){
+
+  
+    // Get form data from inputs
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
+  
+    // Merge new data with existing context data
+    const updatedData = { ...registerData, ...data };
+  
+    // Update context
+    setRegisterData(updatedData);
+  
+    // Prepare FormData for API request
+    const finalData = new FormData();
+  
+    for (const key in updatedData) {
+      if (key === "profilepicture" && updatedData[key] instanceof File) {
+        finalData.append("profilepicture", updatedData[key]); // Append file correctly
+      } else {
+        finalData.append(key, updatedData[key]);
+      }
+    }
+  
+    // Debugging: Log FormData
+    // for (let pair of finalData.entries()) {
+    //   console.log(pair[0], pair[1]);
+    // }
+  
+    // Send data to API
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/api/requests/addrequest`,
+        finalData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+  
+      console.log(res);
+      if (res.data.message === "Request created successfully") {
+        setidCode(res.data.request.id);
         navigate("/successPage");
       }
+    } catch (err) {
+      setAPIError("خطأ في اسم المستخدم او الرقم الخاص او الاميل");
+      setTimeout(() => {
+        navigate("/register")
+      }, 5000);
+    } finally {
       setIsLoading(false);
-    })
-    .catch((res) => {
-      setAPIError(res);
-      setIsLoading(false);
-    });
-    //
+    }
     
-  }
+  };
+  
+  
 
-  let formk = useFormik({
-    initialValues: {
-      privatenumber: "",
-      phonenumber: "",
-    },
-    validationSchema,
-    onSubmit: handelRegister,
-  });
-  return     <>
-  <div className="py-6 max-w-xl mx-auto">
-
-    <h2 className="flex justify-center text-2xl font-bold mb-10">
-      أدخل رقم هاتفك ورقم فريد خاص بك
-    </h2>
-
-    <form onSubmit={formk.handleSubmit}>
-      {/*                            privatenumber                       */}
-      <div className="mb-5">
-        <label
-          htmlFor="privatenumber"
-          className="block mb-3 text-sm font-medium text-gray-900 "
-        >
-          {`رقم خاص بك "فريد لا يتكرر"`}
-        </label>
-        <input
-          type="tel"
-          name="privatenumber"
-          id="privatenumber"
-          value={formk.values.privatenumber}
-          onChange={formk.handleChange}
-          onBlur={formk.handleBlur}
-          placeholder=""
-          className=" bg-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5   dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-      {formk.errors.privatenumber && formk.touched.privatenumber && (
-        <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">
-          <span className="font-medium">{formk.errors.privatenumber}</span>
+  return (
+    <div className="py-6 max-w-xl mx-auto">
+      <h2 className="flex justify-center text-2xl font-bold mb-10">
+        أدخل رقم هاتفك ورقم فريد خاص بك
+      </h2>
+      <form onSubmit={handleRegister}>
+        {/* Private Number */}
+        <div className="mb-5">
+          <label
+            htmlFor="privatenumber"
+            className="block mb-3 text-sm font-medium text-gray-900"
+          >
+            رقم خاص لا يتكرر
+          </label>
+          <input
+            type="tel"
+            name="privatenumber"
+            id="privatenumber"
+            className="bg-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            required
+          />
         </div>
-      )}
-      {/*                            number                       */}
-      <div className="mb-5">
-        <label
-          htmlFor="phonenumber"
-          className="block mb-2 text-sm font-medium text-gray-900 "
-        >
-          رقم الهاتف 
-        </label>
-        <input
-          type="tel"
-          name="phonenumber"
-          id="phonenumber"
-          value={formk.values.phonenumber}
-          onChange={formk.handleChange}
-          onBlur={formk.handleBlur}
-          placeholder=""
-          className=" bg-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5   dark:placeholder-gray-400  dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-      </div>
-      {formk.errors.phonenumber && formk.touched.phonenumber && (
-        <div className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">
-          <span className="font-medium">{formk.errors.phonenumber}</span>
+
+        {/* Phone Number */}
+        <div className="mb-5">
+          <label
+            htmlFor="phonenumber"
+            className="block mb-2 text-sm font-medium text-gray-900"
+          >
+            رقم الهاتف
+          </label>
+          <input
+            type="tel"
+            name="phonenumber"
+            id="phonenumber"
+            className="bg-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+            required
+          />
         </div>
-      )}
 
-
+        {/* Submit Button */}
         <div className="mx-2 mt-20 flex justify-center">
           <button
             type="submit"
-            className="  bg-cyan-600 text-white hover:bg-cyan-700 focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm w-auto px-8 py-3 text-center  "
+            className="bg-cyan-600 text-white hover:bg-cyan-700 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-auto px-8 py-3 text-center"
+            disabled={isLoading}
           >
             {isLoading ? (
               <i className="fa-solid fa-spinner fa-spin fa-lg"></i>
@@ -115,10 +123,17 @@ function PhoneNumber() {
               "أرسال"
             )}
           </button>
-      </div>
-    </form>
-  </div>
-</>
+        </div>
+      </form>
+
+      {/* Display API Error */}
+      {APIError && (
+        <div className="mt-4 text-red-500 text-center">
+          <p>حدث خطأ: {APIError}</p>
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default PhoneNumber
+export default PhoneNumber;

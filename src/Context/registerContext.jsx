@@ -7,11 +7,12 @@ export let RegisterContext = createContext();
 
 
 export default function RegisterContextProvider(props) {
-  const [registerData, setregisterData] = useState([]);
+  const [registerData, setRegisterData] = useState({});
+  const [idCode, setidCode] = useState("");
 
 
   return (
-    <RegisterContext.Provider value={{ registerData, setregisterData }}>
+    <RegisterContext.Provider value={{ registerData, setRegisterData , idCode, setidCode }}>
       {props.children}
     </RegisterContext.Provider>
   );

@@ -8,13 +8,16 @@ import NotFound from "./Pages/NotFound/NotFound";
 import Register from "./Pages/Register/Register";
 import Register2 from "./Pages/Register/Register2";
 import Login from "./Pages/Login/Login";
-// import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute.jsx";
 import UserTokenContextProvider from "./Context/userTokenContext.jsx";
 import RegisterContextProvider from "./Context/registerContext";
 import HousingWork from "./Pages/Housing&Work/Housing-Work";
 import Age from "./Pages/Age/Age";
 import PhoneNumber from "./Pages/PhoneNumber/PhoneNumber";
 import SuccessPage from "./Pages/SuccessPage/SuccessPage";
+import UserData from "./Pages/UserData/UserData";
+import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
+import Search from "./Pages/UserSearch/UserSearch";
+import ConfirmCode from "./Pages/ConfirmCode/ConfirmCode";
 
 
 function App() {
@@ -32,6 +35,9 @@ function App() {
         { path: "/age", element: <Age /> },
         { path: "/phoneNumber", element: <PhoneNumber /> },
         { path: "/successPage", element: <SuccessPage /> },
+        { path: "/userdata", element:<ProtectedRoute> <UserData /> </ProtectedRoute> },
+        { path: "/search", element: <Search />  },
+        { path: "/code", element: <ConfirmCode />  },
         { path: "*", element: <NotFound /> },
       ],
     },
