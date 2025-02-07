@@ -30,7 +30,7 @@ function UserData() {
   }, []);
 
   const fieldLabels = {
-    fullname: "اسم المستخدم",
+    fullname: "اسم الثلاثي",
     email: "البريد الإلكتروني",
     phonenumber: "رقم الهاتف",
     birthdate: "تاريخ الميلاد",
@@ -53,7 +53,7 @@ function UserData() {
   const handleSave = (field) => {
     if (originalData && updatedValue !== originalData[field]) {
       let updateRequest = { [field]: updatedValue };
-      
+
       if (field === "fullname" || field === "livesin") {
         updateRequest = {
           fullname: updatedValue,
@@ -76,8 +76,14 @@ function UserData() {
           }
         )
         .then((res) => {
-          setUserData((prevUserData) => ({ ...prevUserData, ...updateRequest }));
-          setOriginalData((prevOriginalData) => ({ ...prevOriginalData, ...updateRequest }));
+          setUserData((prevUserData) => ({
+            ...prevUserData,
+            ...updateRequest,
+          }));
+          setOriginalData((prevOriginalData) => ({
+            ...prevOriginalData,
+            ...updateRequest,
+          }));
           setEditingField(null);
         })
         .catch((err) => {
@@ -141,11 +147,17 @@ function UserData() {
                   </p>
                 )}
                 {editingField === field ? (
-                  <button onClick={() => handleSave(field)} className="ml-2 text-green-500">
+                  <button
+                    onClick={() => handleSave(field)}
+                    className="ml-2 text-green-500"
+                  >
                     <FaSave />
                   </button>
                 ) : (
-                  <button onClick={() => handleEdit(field, userData[field])} className="ml-2 text-yellow-500">
+                  <button
+                    onClick={() => handleEdit(field, userData[field])}
+                    className="ml-2 text-yellow-500"
+                  >
                     <FaEdit />
                   </button>
                 )}

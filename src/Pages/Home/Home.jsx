@@ -52,7 +52,7 @@ function Home() {
                 <p className="mb-3 text-sm">{picture.title}</p>
                 <img
                   src={`${import.meta.env.VITE_BASE_URL}/${picture.url}`}
-                  className="rounded-lg w-full h-auto"
+                  className="rounded-lg w-full h-40"
                   alt={picture.title}
                 />
               </div>

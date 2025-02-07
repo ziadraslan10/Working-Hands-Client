@@ -24,7 +24,7 @@ function ConfirmCode() {
         setSuccess("Code confirmed successfully!");
         setTimeout(() => {
           navigate("/login")
-        }, 5000);
+        }, 2000);
       })
       .catch((err) => {     
         setError(err.message);
