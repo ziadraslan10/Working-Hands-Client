@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { Link } from "react-router-dom";
+import MainSlider from "../../Components/MainSlider/MainSlider";
 
 function SuccessPage() {
   return (
@@ -28,6 +29,7 @@ function SuccessPage() {
           تحقيق يدوي
         </Link>
       </div>{" "}
+      <MainSlider />
     </>
   );
 }

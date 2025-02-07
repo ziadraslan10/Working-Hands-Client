@@ -11,6 +11,7 @@ function UserData() {
   const [updatedValue, setUpdatedValue] = useState("");
   const [showImageModal, setShowImageModal] = useState(false);
   const [pendingApprovalMessage, setPendingApprovalMessage] = useState("");
+  const [labels, setlabels] = useState([]);
 
   useEffect(() => {
     axios
@@ -20,28 +21,35 @@ function UserData() {
         },
       })
       .then((res) => {
-        console.log("User Data:", res.data.user);
         setUserData(res.data.user);
         setOriginalData(res.data.user);
       })
       .catch((err) => {
         console.error("Error fetching user data", err);
       });
-  }, []);
 
+    axios
+      .get(`${import.meta.env.VITE_BASE_URL}/api/label`)
+      .then((res) => {
+        // console.log("labels:", res.data.labels);
+        setlabels(res.data.labels);
+      })
+      .catch((err) => {
+        console.error("Error fetching user data", err);
+      });
+  }, []);
   const fieldLabels = {
-    fullname: "اسم الثلاثي",
+    fullname: "اسم المستخدم",
     email: "البريد الإلكتروني",
     phonenumber: "رقم الهاتف",
     birthdate: "تاريخ الميلاد",
-    livesin: "المسكن",
-    fathernumber: "رقم الأب",
-    brothernumber: "رقم الأخ",
-    privatenumber: "الرقم الخاص",
-    height: "الطول",
-    jobtitle: "الوظيفة",
-    username: "اسم المستخدم",
+    jobtitle: labels.length > 0 ? labels[0].label : "المسمى الوظيفي",
+    livesin: "السكن",
+    height: labels.length > 0 ? labels[1].label : "الطول",
     status: "الحالة",
+    privatenumber: "الرقم الخاص",
+    brothernumber: "رقم الأخ",
+    fathernumber: "رقم الاب",
   };
 
   const handleEdit = (field, value) => {
@@ -59,9 +67,7 @@ function UserData() {
           fullname: updatedValue,
           livesin: field === "fullname" ? userData.livesin : updatedValue,
         };
-        setPendingApprovalMessage(
-          `تم إرسال طلب تعديل الاسم الكامل و المسكن. يرجى الانتظار حتى يوافق المسؤول.`
-        );
+        setPendingApprovalMessage(`تم إرسال طلب .... يرجي الانتظار`);
         setEditingField(null);
       }
 
@@ -99,38 +105,60 @@ function UserData() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
-      <div className="w-full max-w-3xl bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700 p-6">
-        <div className="flex flex-col items-center pb-10">
+    <div className="flex  min-h-screen lg:px-10">
+      <div className="w-full  bg-white shadow-lg rounded-lg p-6">
+        <div className="flex flex-col items-center">
           <img
-            className="w-24 h-24 mb-3 rounded-full shadow-lg mt-10 cursor-pointer"
+            className="w-24 h-24 rounded-full shadow-md"
             src={`${import.meta.env.VITE_BASE_URL}${userData.profilepicture}`}
             alt={userData.fullname}
             onClick={() => setShowImageModal(true)}
           />
-          <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
-            {userData.fullname}
-          </h5>
-          <span className="text-sm text-gray-500 dark:text-gray-400">
-            {userData.jobtitle} | {userData.livesin}
-          </span>
+          <h2 className="text-xl font-semibold mt-4">{userData.fullname}</h2>
+          <p className="text-gray-500">{userData.jobtitle}</p>
+        </div>
+        <div className="mt-8 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 ">
+          {Object.keys(fieldLabels).map((field) => (
+            <>
+              {fieldLabels[field] === "رقم الأخ" ? (
+                <>
+                  <div className="border-b-2 py-5"></div>{" "}
+                  <div className="md:border-b-2 py-5"></div>{" "}
+                  <div className="lg:border-b-2 py-5"></div>{" "}
+                  <div className="text-gray-500 font-bold mr-5">
+                    بيانات اضافية
+                  </div>
+                  <div></div> <div></div>
+                </>
+              ) : (
+                ""
+              )}
 
-          <div className="grid md:grid-cols-2 grid-cols-1 gap-4 mt-8">
-            {Object.keys(fieldLabels).map((field) => (
-              <div
-                key={field}
-                className="flex items-center justify-between py-2 px-3 rounded-xl bg-sky-500 mx-1 mt-3 w-full"
-              >
+              <div className="flex justify-between  items-center bg-gray-50 p-4 rounded-lg shadow-sm">
                 {editingField === field ? (
                   field === "status" ? (
                     <select
-                      className="text-black px-2 py-1 rounded-md w-full"
+                      className="px-2 py-1 rounded-md w-full"
                       value={updatedValue || userData.status || ""}
                       onChange={(e) => setUpdatedValue(e.target.value)}
                     >
                       <option value="">اختر الحالة</option>
-                      <option value="يعمل">يعمل</option>
-                      <option value="لا يعمل">لا يعمل</option>
+                      <option
+                        className="text-green-700"
+                        value={labels.length > 0 ? labels[2].label : "يعمل"}
+                      >
+                        <span className="text-green-700">
+                          {labels.length > 0 ? labels[2].label : "يعمل"}
+                        </span>
+                      </option>
+                      <option
+                        className="text-red-600"
+                        value={labels.length > 0 ? labels[3].label : "لا يعمل"}
+                      >
+                        <span className="text-red-600">
+                          {labels.length > 0 ? labels[3].label : "يعمل"}
+                        </span>
+                      </option>
                     </select>
                   ) : (
                     <input
@@ -141,9 +169,18 @@ function UserData() {
                     />
                   )
                 ) : (
-                  <p className="text-white w-full">
-                    <span className="font-bold"> {fieldLabels[field]} : </span>
-                    {userData[field] || "غير متوفر"}
+                  <p className=" text-black w-full">
+                    <span className="font-bold text-gray-500">
+                      {" "}
+                      {fieldLabels[field]} :{" "}
+                    </span>
+                    {field === "status" ? (
+                      userData[field] === "يعمل"? 
+                      <span className="text-green-700">{userData[field]}</span>:
+                      <span className="text-red-600">{userData[field]}</span>
+                    ) : (
+                      <>{userData[field] || "غير متوفر"}</>
+                    )}
                   </p>
                 )}
                 {editingField === field ? (
@@ -156,21 +193,21 @@ function UserData() {
                 ) : (
                   <button
                     onClick={() => handleEdit(field, userData[field])}
-                    className="ml-2 text-yellow-500"
+                    className="ml-2 text-blue-500"
                   >
                     <FaEdit />
                   </button>
                 )}
               </div>
-            ))}
-          </div>
-
-          {pendingApprovalMessage && (
-            <div className="mt-4 p-3 bg-yellow-200 text-yellow-800 rounded-md">
-              {pendingApprovalMessage}
-            </div>
-          )}
+            </>
+          ))}
         </div>
+
+        {pendingApprovalMessage && (
+          <div className="mt-4 p-3 bg-yellow-200 text-yellow-800 text-center rounded-md">
+            {pendingApprovalMessage}
+          </div>
+        )}
       </div>
     </div>
   );

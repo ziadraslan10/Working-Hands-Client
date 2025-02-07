@@ -1,9 +1,12 @@
+/* eslint-disable no-unused-vars */
 import axios from "axios";
-import React, { useState } from "react";
+import { useState } from "react";
 import { FaSearch, FaHome, FaUser } from "react-icons/fa";
 import { MdEmail, MdDateRange, MdOutlineWork } from "react-icons/md";
 import { FaPhone } from "react-icons/fa6";
 import { GiHighTide } from "react-icons/gi";
+import { IoIosPhonePortrait } from "react-icons/io";
+import { RiImageEditLine } from "react-icons/ri";
 
 function UserSearch() {
   const [searchValue, setSearchValue] = useState("");
@@ -61,7 +64,9 @@ function UserSearch() {
       </form>
 
       {/* Loading & Error Messages */}
-      {loading && <p className="text-right text-gray-600 mt-3">جاري البحث...</p>}
+      {loading && (
+        <p className="text-right text-gray-600 mt-3">جاري البحث...</p>
+      )}
       {error && <p className="text-right text-red-500 mt-3">{error}</p>}
 
       {/* Display User Data */}
@@ -74,17 +79,19 @@ function UserSearch() {
               className="w-24 h-24 rounded-full border-2 border-blue-500"
             />
             <div className="text-right flex-grow">
-              <h2 className="text-lg font-semibold text-white">{userData.fullname}</h2>
+              <h2 className="text-lg font-semibold text-white">
+                {userData.fullname}
+              </h2>
               <p className="text-gray-700 text-sm">{userData.status}</p>
             </div>
           </div>
 
           <div className="mt-4 space-y-4 text-right">
-            <p className="flex items-center">
+            {/* <p className="flex items-center">
               <FaUser className="ml-2" />
               <span className="font-semibold mr-1">اسم المستخدم:</span>
               {userData.username}
-            </p>
+            </p> */}
             <p className="flex items-center">
               <MdDateRange className="ml-2" />
               <span className="font-semibold mr-1">تاريخ الميلاد:</span>
@@ -96,12 +103,12 @@ function UserSearch() {
               {userData.livesin}
             </p>
             <p className="flex items-center">
-              <MdOutlineWork className="ml-2" />
+              <IoIosPhonePortrait className="ml-2" />
               <span className="font-semibold mr-1">الوظيفة:</span>
               {userData.jobtitle}
             </p>
             <p className="flex items-center">
-              <GiHighTide className="ml-2" />
+              <RiImageEditLine  className="ml-2" />
               <span className="font-semibold mr-1">الطول:</span>
               {userData.height} سم
             </p>
@@ -111,11 +118,11 @@ function UserSearch() {
               {userData.privatenumber}
             </p>
             <br />
-            <p className="flex items-center">
+            {/* <p className="flex items-center">
               <MdEmail className="ml-2" />
               <span className="font-semibold mr-1">البريد الإلكتروني:</span>
               {userData.email}
-            </p>
+            </p> */}
             <p className="flex items-center">
               <FaPhone className="ml-2" />
               <span className="font-semibold mr-1">رقم الهاتف:</span>

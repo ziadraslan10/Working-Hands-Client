@@ -18,6 +18,8 @@ import UserData from "./Pages/UserData/UserData";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import Search from "./Pages/UserSearch/UserSearch";
 import ConfirmCode from "./Pages/ConfirmCode/ConfirmCode";
+import ForgetPassword from "./Pages/ForgetPassword/ForgetPassword";
+import UpdatePassword from "./Pages/UpdatePassword/UpdatePassword.jsx";
 
 
 function App() {
@@ -38,6 +40,8 @@ function App() {
         { path: "/userdata", element:<ProtectedRoute> <UserData /> </ProtectedRoute> },
         { path: "/search", element: <Search />  },
         { path: "/code", element: <ConfirmCode />  },
+        { path: "/forgetPassword", element: <ForgetPassword />  },
+        { path: "/updatePassword", element: <UpdatePassword />  },
         { path: "*", element: <NotFound /> },
       ],
     },
