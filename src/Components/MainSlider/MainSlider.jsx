@@ -31,10 +31,10 @@ export default function MainSlider() {
           modules={[Navigation, Pagination, Autoplay]}
           navigation
           pagination={{ clickable: true }}
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
           spaceBetween={10}
           slidesPerView={1}
           className="rounded-2xl"
+          loop
         >
           {sliderData.images?.map((image, index) => (
             <SwiperSlide key={index}>

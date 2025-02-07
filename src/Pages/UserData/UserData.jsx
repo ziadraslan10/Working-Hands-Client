@@ -31,7 +31,7 @@ function UserData() {
     axios
       .get(`${import.meta.env.VITE_BASE_URL}/api/label`)
       .then((res) => {
-        // console.log("labels:", res.data.labels);
+        console.log("labels:", res.data.labels);
         setlabels(res.data.labels);
       })
       .catch((err) => {
@@ -144,10 +144,10 @@ function UserData() {
                     >
                       <option value="">اختر الحالة</option>
                       <option
-                        className="text-green-700"
+                        className="text-green-900"
                         value={labels.length > 0 ? labels[2].label : "يعمل"}
                       >
-                        <span className="text-green-700">
+                        <span className="text-green-900">
                           {labels.length > 0 ? labels[2].label : "يعمل"}
                         </span>
                       </option>
