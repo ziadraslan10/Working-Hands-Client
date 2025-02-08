@@ -31,7 +31,8 @@ export default function MainSlider() {
           modules={[Navigation, Pagination, Autoplay]}
           navigation
           pagination={{ clickable: true }}
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          // autoplay={{ delay: 3000, disableOnInteraction: false }}
+          loop
           spaceBetween={10}
           slidesPerView={1}
           className="rounded-2xl"

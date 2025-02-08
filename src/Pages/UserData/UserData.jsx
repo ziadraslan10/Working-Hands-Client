@@ -12,6 +12,7 @@ function UserData() {
   const [showImageModal, setShowImageModal] = useState(false);
   const [pendingApprovalMessage, setPendingApprovalMessage] = useState("");
   const [labels, setlabels] = useState([]);
+  const [x, setx] = useState([]);
 
   useEffect(() => {
     axios
@@ -39,17 +40,17 @@ function UserData() {
       });
   }, []);
   const fieldLabels = {
-    fullname: "اسم المستخدم",
-    email: "البريد الإلكتروني",
-    phonenumber: "رقم الهاتف",
-    birthdate: "تاريخ الميلاد",
-    jobtitle: labels.length > 0 ? labels[0].label : "المسمى الوظيفي",
-    livesin: "السكن",
-    height: labels.length > 0 ? labels[1].label : "الطول",
-    status: "الحالة",
-    privatenumber: "الرقم الخاص",
-    brothernumber: "رقم الأخ",
-    fathernumber: "رقم الاب",
+    fullname: " اسم المستخدم :" ,
+    email:"البريد الالكتروني :" ,
+    phonenumber: "رقم الهاتف :",
+    birthdate: "تاريخ الميلاد :" ,
+    jobtitle: labels.length > 0 ? labels[0].label+" : " : ": المسمى الوظيفي :",
+    livesin: "السكن :",
+    height: labels.length > 0 ? labels[1].label+" : " : "الطول :",
+    status: "الحالة :",
+    privatenumber: "الرقم الخاص :",
+    brothernumber: " ",
+    fathernumber: null,
   };
 
   const handleEdit = (field, value) => {
@@ -120,7 +121,7 @@ function UserData() {
         <div className="mt-8 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 ">
           {Object.keys(fieldLabels).map((field) => (
             <>
-              {fieldLabels[field] === "رقم الأخ" ? (
+              {fieldLabels[field] === " " && x == 0 ? (
                 <>
                   <div className="border-b-2 py-5"></div>{" "}
                   <div className="md:border-b-2 py-5"></div>{" "}
@@ -129,6 +130,7 @@ function UserData() {
                     بيانات اضافية
                   </div>
                   <div></div> <div></div>
+                  {/* {setx(1)} */}
                 </>
               ) : (
                 ""
@@ -172,14 +174,24 @@ function UserData() {
                   <p className=" text-black w-full">
                     <span className="font-bold text-gray-500">
                       {" "}
-                      {fieldLabels[field]} :{" "}
+                      {fieldLabels[field]} {" "}
                     </span>
                     {field === "status" ? (
-                      userData[field] === "يعمل"? 
-                      <span className="text-green-700">{userData[field]}</span>:
-                      <span className="text-red-600">{userData[field]}</span>
+                      userData[field] === "يعمل" ? (
+                        <span className="text-green-700">
+                          {userData[field]}
+                        </span>
+                      ) : (
+                        <span className="text-red-600">{userData[field]}</span>
+                      )
                     ) : (
-                      <>{userData[field] || "غير متوفر"}</>
+                      <>
+                        {field === "birthdate"
+                          ? new Date(userData[field]).toLocaleDateString(
+                              "ar-EG"
+                            )
+                          : userData[field] || "غير متوفر"}
+                      </>
                     )}
                   </p>
                 )}

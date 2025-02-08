@@ -20,6 +20,8 @@ import Search from "./Pages/UserSearch/UserSearch";
 import ConfirmCode from "./Pages/ConfirmCode/ConfirmCode";
 import ForgetPassword from "./Pages/ForgetPassword/ForgetPassword";
 import UpdatePassword from "./Pages/UpdatePassword/UpdatePassword.jsx";
+import Policy from "./Pages/Policy/Policy";
+import Whoweare from "./Pages/WhoWeAre/WhoWeAre";
 
 
 function App() {
@@ -42,6 +44,8 @@ function App() {
         { path: "/code", element: <ConfirmCode />  },
         { path: "/forgetPassword", element: <ForgetPassword />  },
         { path: "/updatePassword", element: <UpdatePassword />  },
+        {path: "/policy" , element: <Policy/>},
+        {path: "/whoweare" , element: <Whoweare/>},
         { path: "*", element: <NotFound /> },
       ],
     },

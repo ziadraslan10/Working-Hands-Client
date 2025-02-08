@@ -15,13 +15,13 @@ export default function Footer() {
     <div >
       <ul className=' lg:flex justify-evenly items-center lg:my-6'>
         <li  className='pt-1 '>
-          <Link to="">من نحن</Link>
-        </li>
-        <li  className='pt-1 '>
-          <Link to=""> سياسة الخصوصية</Link>
-        </li>
-        <li  className='pt-1 '>
           <Link to=""> الشروط والاحكام</Link>
+        </li>
+        <li  className='pt-1 '>
+          <Link to="/whoweare">من نحن</Link>
+        </li>
+        <li  className='pt-1 '>
+          <Link to="/policy"> سياسة الخصوصية</Link>
         </li>
         <li  className='pt-1'>
           <Link to="">  اتصل بنا</Link>

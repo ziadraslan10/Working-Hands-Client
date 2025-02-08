@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useState } from "react";
 import mainLogo from "../../assets/الايدي العاملة 1.png";
+import { FaRegUser } from "react-icons/fa";
 import {
   FaYoutube,
   FaInstagram,
@@ -32,28 +33,23 @@ const Navbar = () => {
   return (
     <nav className=" bg-sky-500 py-5 px-10 lg:px-20 z-50">
       <div className="flex justify-between items-center">
-      <div className="flex items-center rounded-full">
-  <Link to="/">
-    <img src={mainLogo} alt="Main Logo" className="w-10 h-10 rounded-full" />
-  </Link>
-</div>
+        <div className="flex items-center rounded-full">
+          <Link to="/">
+            <img
+              src={mainLogo}
+              alt="Main Logo"
+              className="w-10 h-10 rounded-full"
+            />
+          </Link>
+        </div>
 
         <div className="hidden md:flex space-x-2 text-white">
           <div className="flex text-lg items-center text-black ">
-
             {/*                login && register                  */}
             {!userLogin && (
               <div className="flex justify-center items-center gap-2">
-                <NavLink
-                  to="/login"
-                >
-                  تسجيل الدخول
-                </NavLink>
-                <NavLink
-                  to="/register"
-                >
-                  انشاء حساب
-                </NavLink>
+                <NavLink to="/login">تسجيل الدخول</NavLink>
+                <NavLink to="/register">انشاء حساب</NavLink>
               </div>
             )}
           </div>
@@ -79,16 +75,24 @@ const Navbar = () => {
 
           {/*                       logout                   */}
           {userLogin && (
-            <div
-              onClick={() => deleteToken()}
-              className="flex text-black items-center hover:text-blue-600 p-2 cursor-pointer "
-            >
-              <a className="">تسجيل الخروج </a>
-              <div className="flex px-2 justify-center items-center font-light">
-                {" "}
-                <FaSignInAlt />
+            <>
+              <div className="flex cursor-pointer rounded-md items-center  justify-center text-center hover:text-sky-600">
+                <Link className=" px-5" to="/userdata">
+                  {" "}
+                  <FaRegUser />{" "}
+                </Link>
+                <div
+                  onClick={() => deleteToken()}
+                  className="flex text-white items-center hover:text-blue-600 p-2 cursor-pointer "
+                >
+                  <a className="">تسجيل الخروج </a>
+                  <div className="flex px-2 justify-center items-center font-light">
+                    {" "}
+                    <FaSignInAlt />
+                  </div>
+                </div>
               </div>
-            </div>
+            </>
           )}
         </div>
 
@@ -102,21 +106,26 @@ const Navbar = () => {
       {menuOpen && (
         <div className="md:hidden bg-gray-800 py-4 ">
           <div className="px-4 space-y-4">
-
-
-
             {/*                       logout                   */}
             {userLogin && (
-              <div
-                onClick={() => deleteToken()}
-                className="flex cursor-pointer rounded-md bg-slate-200 justify-center text-center hover:text-sky-600 py-2 "
-              >
-                <a className="">تسجيل الخروج</a>
-                <div className="flex px-2 justify-center items-center font-light">
-                  {" "}
-                  <FaSignInAlt />
+              <>
+                <div className="flex cursor-pointer rounded-md bg-slate-200 justify-center text-center hover:text-sky-600 py-2">
+                  <Link className=" px-5" to="/userdata">
+                    {" "}
+                    <FaRegUser />{" "}
+                  </Link>
                 </div>
-              </div>
+                <div
+                  onClick={() => deleteToken()}
+                  className="flex cursor-pointer rounded-md bg-slate-200 justify-center text-center hover:text-sky-600 py-2 "
+                >
+                  <a className="">تسجيل الخروج</a>
+                  <div className="flex px-2 justify-center items-center font-light">
+                    {" "}
+                    <FaSignInAlt />
+                  </div>
+                </div>
+              </>
             )}
 
             {/*                    login && register                  */}
@@ -138,7 +147,6 @@ const Navbar = () => {
                 </NavLink>
               </div>
             )}
-
           </div>
         </div>
       )}
