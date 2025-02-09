@@ -39,7 +39,7 @@ function App() {
         { path: "/age", element: <Age /> },
         { path: "/phoneNumber", element: <PhoneNumber /> },
         { path: "/successPage", element: <SuccessPage /> },
-        { path: "/userdata", element:<ProtectedRoute> <UserData /> </ProtectedRoute> },
+        { path: "/userdata", element: <ProtectedRoute><UserData /></ProtectedRoute> },
         { path: "/search", element: <Search />  },
         { path: "/code", element: <ConfirmCode />  },
         { path: "/forgetPassword", element: <ForgetPassword />  },

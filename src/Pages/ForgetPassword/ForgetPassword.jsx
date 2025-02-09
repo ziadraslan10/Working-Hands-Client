@@ -26,8 +26,7 @@ function ForgetPassword() {
     setLoading(true);
     setError(null);
     setUserData(null);
-    console.log({identifier: searchValue});
-    
+    console.log({ identifier: searchValue });
 
     axios
       .post(`${import.meta.env.VITE_BASE_URL}/api/users/forgotpassword`, {
@@ -36,8 +35,8 @@ function ForgetPassword() {
       .then((response) => {
         console.log(response.data);
         setUserData(response.data.user);
-        if(response.data.message == "OTP sent to your email"){
-          navigate('/updatePassword')
+        if (response.data.message == "OTP sent to your email") {
+          navigate("/updatePassword");
         }
       })
       .catch((err) => {
@@ -60,7 +59,7 @@ function ForgetPassword() {
           onChange={handleInputChange}
           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 text-right shadow-sm"
           placeholder="ابحث بالرقم الخاص او البريد الالكتروني او اسم المستحدم"
-          
+
         />
         <button
           type="submit"
@@ -77,8 +76,9 @@ function ForgetPassword() {
       )}
       {error && <p className="text-right text-red-500 mt-3">{error}</p>}
 
-
     </div>
+
+
   );
 }
 
