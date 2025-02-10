@@ -30,7 +30,7 @@ function Home() {
   }, []);
 
   const Serach = () => {
-    navigate("/search");
+    navigate("/searchoptions");
   };
 
   return (
@@ -75,7 +75,10 @@ function Home() {
           >
             هل نسيت كلمة المرور؟
           </Link>
-          <button onClick={Serach} className="bg-gradient-to-r from-emerald-400 to-lime-600 text-sm py-2 px-3 rounded-lg">
+          <button
+            onClick={Serach}
+            className="bg-gradient-to-r from-emerald-400 to-lime-600 text-sm py-2 px-3 rounded-lg"
+          >
             البحث عن الرقم الخاص
           </button>
         </div>

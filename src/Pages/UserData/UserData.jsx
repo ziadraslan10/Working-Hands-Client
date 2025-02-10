@@ -3,7 +3,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaEdit, FaSave } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
-
+import { Link } from "react-router-dom";
+import { CiBarcode } from "react-icons/ci";
 function UserData() {
   const [userData, setUserData] = useState(null);
   const [originalData, setOriginalData] = useState(null);
@@ -40,13 +41,14 @@ function UserData() {
       });
   }, []);
   const fieldLabels = {
-    fullname: " اسم المستخدم :" ,
-    email:"البريد الالكتروني :" ,
+    fullname: " اسم المستخدم :",
+    email: "البريد الالكتروني :",
     phonenumber: "رقم الهاتف :",
-    birthdate: "تاريخ الميلاد :" ,
-    jobtitle: labels.length > 0 ? labels[0].label+" : " : ": المسمى الوظيفي :",
+    birthdate: "تاريخ الميلاد :",
+    jobtitle:
+      labels.length > 0 ? labels[0].label + " : " : ": المسمى الوظيفي :",
     livesin: "السكن :",
-    height: labels.length > 0 ? labels[1].label+" : " : "الطول :",
+    height: labels.length > 0 ? labels[1].label + " : " : "الطول :",
     status: "الحالة :",
     privatenumber: "الرقم الخاص :",
     brothernumber: " ",
@@ -108,6 +110,14 @@ function UserData() {
   return (
     <div className="flex  min-h-screen lg:px-10">
       <div className="w-full  bg-white shadow-lg rounded-lg p-6">
+        <div className="flex justify-end">
+          <Link
+            to={"/generateqr"}
+            className="bg-sky-500 text-white px-3 py-3 rounded-lg"
+          >
+            <CiBarcode />
+          </Link>
+        </div>
         <div className="flex flex-col items-center">
           <img
             className="w-24 h-24 rounded-full shadow-md"
@@ -118,6 +128,7 @@ function UserData() {
           <h2 className="text-xl font-semibold mt-4">{userData.fullname}</h2>
           <p className="text-gray-500">{userData.jobtitle}</p>
         </div>
+
         <div className="mt-8 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 ">
           {Object.keys(fieldLabels).map((field) => (
             <>
@@ -174,7 +185,7 @@ function UserData() {
                   <p className=" text-black w-full">
                     <span className="font-bold text-gray-500">
                       {" "}
-                      {fieldLabels[field]} {" "}
+                      {fieldLabels[field]}{" "}
                     </span>
                     {field === "status" ? (
                       userData[field] === "يعمل" ? (

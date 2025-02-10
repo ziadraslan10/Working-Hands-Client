@@ -1,11 +1,10 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
 import { useState } from "react";
-import { FaSearch, FaHome, FaUser } from "react-icons/fa";
-import { MdEmail, MdDateRange, MdOutlineWork } from "react-icons/md";
+import { FaHome, FaSearch } from "react-icons/fa";
 import { FaPhone } from "react-icons/fa6";
-import { GiHighTide } from "react-icons/gi";
 import { IoIosPhonePortrait } from "react-icons/io";
+import { MdDateRange } from "react-icons/md";
 import { RiImageEditLine } from "react-icons/ri";
 
 function UserSearch() {
@@ -76,13 +75,13 @@ function UserSearch() {
             <img
               src={`${import.meta.env.VITE_BASE_URL}${userData.profilepicture}`}
               alt="Profile"
-              className="w-24 h-24 rounded-full border-2 border-blue-500"
+              className="w-32 h-32 rounded-full border-2 border-blue-500"
             />
             <div className="text-right flex-grow">
               <h2 className="text-lg font-semibold text-white">
                 {userData.fullname}
               </h2>
-              <p className="text-gray-700 text-sm">{userData.status}</p>
+              <p className="text-red-500 text-sm font-bold">{userData.status}</p>
             </div>
           </div>
 

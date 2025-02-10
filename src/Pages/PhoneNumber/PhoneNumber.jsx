@@ -72,7 +72,7 @@ function PhoneNumber() {
             htmlFor="privatenumber"
             className="block mb-3 text-sm font-medium text-gray-900"
           >
-            رقم خاص لا يتكرر
+            الرقم الخاص
           </label>
           <input
             type="tel"

@@ -22,6 +22,9 @@ import ForgetPassword from "./Pages/ForgetPassword/ForgetPassword";
 import UpdatePassword from "./Pages/UpdatePassword/UpdatePassword.jsx";
 import Policy from "./Pages/Policy/Policy";
 import Whoweare from "./Pages/WhoWeAre/WhoWeAre";
+import GenerateQRCode from "./Pages/UserSearch/GenerateQRCode .jsx";
+import ScanQRCode from "./Pages/UserSearch/ScanQRCode .jsx";
+import SearchOptions from "./Pages/UserSearch/SearchOptions.jsx";
 
 
 function App() {
@@ -41,6 +44,9 @@ function App() {
         { path: "/successPage", element: <SuccessPage /> },
         { path: "/userdata", element:<ProtectedRoute> <UserData /> </ProtectedRoute> },
         { path: "/search", element: <Search />  },
+        { path: "/searchoptions", element: <SearchOptions />  },
+        { path: "/generateqr", element: <GenerateQRCode />  },
+        { path: "/scanqr", element: <ScanQRCode />  },
         { path: "/code", element: <ConfirmCode />  },
         { path: "/forgetPassword", element: <ForgetPassword />  },
         { path: "/updatePassword", element: <UpdatePassword />  },
