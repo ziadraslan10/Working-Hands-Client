@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { RegisterContext } from "../../Context/registerContext";
+import { HiOutlineCheck } from "react-icons/hi";
 
 function PhoneNumber() {
   let navigate = useNavigate();
@@ -18,7 +19,7 @@ function PhoneNumber() {
       setAPIError("يجب الموافقة على الشروط والأحكام");
       return;
     }
-
+    
     setIsLoading(true);
     setAPIError("");
 
@@ -111,11 +112,12 @@ function PhoneNumber() {
             htmlFor="terms"
             className="ml-2 text-sm font-medium text-gray-900"
           >
-            أوافق على الشروط والأحكام
+            أوافق على الشروط والأحكام  
           </label>
         </div>
-        <div className="pb-2 text-gray-900 hover:underline hover:text-blue-400">
-          <Link to="/policy">سياسه الخصوصية والاستخدام</Link>
+        <div className="pb-2 text-gray-900 hover:underline hover:text-blue-400 flex text-center">
+        {/* <div className=""><HiOutlineCheck /></div>  */}
+        ✅<Link className="mx-1" to="/policy">سياسه الخصوصية والاستخدام</Link> 
         </div>
 
         <div className="mx-2 mt-10 flex justify-center">

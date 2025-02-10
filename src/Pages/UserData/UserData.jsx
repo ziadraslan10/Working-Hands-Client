@@ -5,15 +5,15 @@ import { FaEdit, FaSave } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { CiBarcode } from "react-icons/ci";
+
 function UserData() {
   const [userData, setUserData] = useState(null);
   const [originalData, setOriginalData] = useState(null);
   const [editingField, setEditingField] = useState(null);
   const [updatedValue, setUpdatedValue] = useState("");
-  const [showImageModal, setShowImageModal] = useState(false);
   const [pendingApprovalMessage, setPendingApprovalMessage] = useState("");
-  const [labels, setlabels] = useState([]);
-  const [x, setx] = useState([]);
+  const [labels, setLabels] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     axios
@@ -26,27 +26,20 @@ function UserData() {
         setUserData(res.data.user);
         setOriginalData(res.data.user);
       })
-      .catch((err) => {
-        console.error("Error fetching user data", err);
-      });
+      .catch((err) => console.error("Error fetching user data", err));
 
     axios
       .get(`${import.meta.env.VITE_BASE_URL}/api/label`)
-      .then((res) => {
-        console.log("labels:", res.data.labels);
-        setlabels(res.data.labels);
-      })
-      .catch((err) => {
-        console.error("Error fetching user data", err);
-      });
+      .then((res) => setLabels(res.data.labels))
+      .catch((err) => console.error("Error fetching labels", err));
   }, []);
+
   const fieldLabels = {
-    fullname: " اسم المستخدم :",
+    fullname: "اسم المستخدم :",
     email: "البريد الالكتروني :",
     phonenumber: "رقم الهاتف :",
     birthdate: "تاريخ الميلاد :",
-    jobtitle:
-      labels.length > 0 ? labels[0].label + " : " : ": المسمى الوظيفي :",
+    jobtitle: labels.length > 0 ? labels[0].label + " : " : "المسمى الوظيفي :",
     livesin: "السكن :",
     height: labels.length > 0 ? labels[1].label + " : " : "الطول :",
     status: "الحالة :",
@@ -108,8 +101,8 @@ function UserData() {
   }
 
   return (
-    <div className="flex  min-h-screen lg:px-10">
-      <div className="w-full  bg-white shadow-lg rounded-lg p-6">
+    <div className="flex min-h-screen lg:px-10">
+      <div className="w-full bg-white shadow-lg rounded-lg p-6">
         <div className="flex justify-end">
           <Link
             to={"/generateqr"}
@@ -118,113 +111,96 @@ function UserData() {
             <CiBarcode />
           </Link>
         </div>
+
         <div className="flex flex-col items-center">
           <img
-            className="w-24 h-24 rounded-full shadow-md"
+            className="w-24 h-24 rounded-full shadow-md cursor-pointer"
             src={`${import.meta.env.VITE_BASE_URL}${userData.profilepicture}`}
             alt={userData.fullname}
-            onClick={() => setShowImageModal(true)}
+            onClick={() => setIsModalOpen(true)}
           />
           <h2 className="text-xl font-semibold mt-4">{userData.fullname}</h2>
           <p className="text-gray-500">{userData.jobtitle}</p>
         </div>
 
-        <div className="mt-8 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6 ">
+        <div className="mt-8 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
           {Object.keys(fieldLabels).map((field) => (
-            <>
-              {fieldLabels[field] === " " && x == 0 ? (
-                <>
-                  <div className="border-b-2 py-5"></div>{" "}
-                  <div className="md:border-b-2 py-5"></div>{" "}
-                  <div className="lg:border-b-2 py-5"></div>{" "}
-                  <div className="text-gray-500 font-bold mr-5">
-                    بيانات اضافية
-                  </div>
-                  <div></div> <div></div>
-                  {/* {setx(1)} */}
-                </>
+            <div key={field} className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm">
+              {editingField === field ? (
+                field === "status" ? (
+                  <select
+                    className="px-2 py-1 rounded-md w-full"
+                    value={updatedValue || userData.status || ""}
+                    onChange={(e) => setUpdatedValue(e.target.value)}
+                  >
+                    <option value="">اختر الحالة</option>
+                    <option value={labels.length > 0 ? labels[2].label : "يعمل"}>
+                      {labels.length > 0 ? labels[2].label : "يعمل"}
+                    </option>
+                    <option value={labels.length > 0 ? labels[3].label : "لا يعمل"}>
+                      {labels.length > 0 ? labels[3].label : "لا يعمل"}
+                    </option>
+                  </select>
+                ) : (
+                  <input
+                    type="text"
+                    className="text-black px-2 py-1 rounded-md w-full"
+                    value={updatedValue}
+                    onChange={(e) => setUpdatedValue(e.target.value)}
+                  />
+                )
               ) : (
-                ""
-              )}
-
-              <div className="flex justify-between  items-center bg-gray-50 p-4 rounded-lg shadow-sm">
-                {editingField === field ? (
-                  field === "status" ? (
-                    <select
-                      className="px-2 py-1 rounded-md w-full"
-                      value={updatedValue || userData.status || ""}
-                      onChange={(e) => setUpdatedValue(e.target.value)}
-                    >
-                      <option value="">اختر الحالة</option>
-                      <option
-                        className="text-green-900"
-                        value={labels.length > 0 ? labels[2].label : "يعمل"}
-                      >
-                        <span className="text-green-900">
-                          {labels.length > 0 ? labels[2].label : "يعمل"}
-                        </span>
-                      </option>
-                      <option
-                        className="text-red-600"
-                        value={labels.length > 0 ? labels[3].label : "لا يعمل"}
-                      >
-                        <span className="text-red-600">
-                          {labels.length > 0 ? labels[3].label : "يعمل"}
-                        </span>
-                      </option>
-                    </select>
-                  ) : (
-                    <input
-                      type="text"
-                      className="text-black px-2 py-1 rounded-md w-full"
-                      value={updatedValue}
-                      onChange={(e) => setUpdatedValue(e.target.value)}
-                    />
-                  )
-                ) : (
-                  <p className=" text-black w-full">
-                    <span className="font-bold text-gray-500">
-                      {" "}
-                      {fieldLabels[field]}{" "}
-                    </span>
-                    {field === "status" ? (
-                      userData[field] === "يعمل" ? (
-                        <span className="text-green-700">
-                          {userData[field]}
-                        </span>
-                      ) : (
-                        <span className="text-red-600">{userData[field]}</span>
-                      )
+                <p className="text-black w-full">
+                  <span className="font-bold text-gray-500">{fieldLabels[field]}</span>
+                  {field === "status" ? (
+                    userData[field] === "يعمل" ? (
+                      <span className="text-green-700">{userData[field]}</span>
                     ) : (
-                      <>
-                        {field === "birthdate"
-                          ? new Date(userData[field]).toLocaleDateString(
-                              "ar-EG"
-                            )
-                          : userData[field] || "غير متوفر"}
-                      </>
-                    )}
-                  </p>
-                )}
-                {editingField === field ? (
-                  <button
-                    onClick={() => handleSave(field)}
-                    className="ml-2 text-green-500"
-                  >
-                    <FaSave />
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => handleEdit(field, userData[field])}
-                    className="ml-2 text-blue-500"
-                  >
-                    <FaEdit />
-                  </button>
-                )}
-              </div>
-            </>
+                      <span className="text-red-600">{userData[field]}</span>
+                    )
+                  ) : (
+                    <>
+                      {field === "birthdate"
+                        ? new Date(userData[field]).toLocaleDateString("ar-EG")
+                        : userData[field] || "غير متوفر"}
+                    </>
+                  )}
+                </p>
+              )}
+              {editingField === field ? (
+                <button onClick={() => handleSave(field)} className="ml-2 text-green-500">
+                  <FaSave />
+                </button>
+              ) : (
+                <button onClick={() => handleEdit(field, userData[field])} className="ml-2 text-blue-500">
+                  <FaEdit />
+                </button>
+              )}
+            </div>
           ))}
         </div>
+
+        {isModalOpen && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+            onClick={() => setIsModalOpen(false)}
+          >
+            <div className="relative">
+              <img
+                className="max-w-full max-h-[90vh] rounded-lg"
+                src={`${import.meta.env.VITE_BASE_URL}${userData.profilepicture}`}
+                alt={userData.fullname}
+                onClick={(e) => e.stopPropagation()}
+              />
+              <button
+                className="absolute top-2 right-2 bg-white p-2 rounded-full shadow-md"
+                onClick={() => setIsModalOpen(false)}
+              >
+                ✖
+              </button>
+            </div>
+          </div>
+        )}
 
         {pendingApprovalMessage && (
           <div className="mt-4 p-3 bg-yellow-200 text-yellow-800 text-center rounded-md">

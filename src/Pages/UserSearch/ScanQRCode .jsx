@@ -64,7 +64,15 @@ const ScanQRCode = () => {
                 <h2 className="text-lg font-semibold text-white">
                   {scannedData.fullname}
                 </h2>
-                <p className="text-gray-700 text-sm">{scannedData.status}</p>
+                <p
+                  className={
+                    scannedData.status === "يعمل"
+                      ? "text-green-600 text-sm"
+                      : "text-red-600 text-sm"
+                  }
+                >
+                  {scannedData.status}
+                </p>
               </div>
             </div>
 
@@ -112,13 +120,17 @@ const ScanQRCode = () => {
               </p>
               <p className="flex items-center">
                 <FaPhone className="ml-2" />
-                <span className="font-semibold mr-1">رقم الأب:</span>
-                {scannedData.fathernumber || "لم يتم اضافه رقم"}
+                <span className="font-semibold mr-1">
+                  {" "}
+                  {scannedData.fathernumber || "لم يتم اضافه رقم"}
+                </span>
               </p>
               <p className="flex items-center">
                 <FaPhone className="ml-2" />
-                <span className="font-semibold mr-1">رقم الأخ:</span>
-                {scannedData.brothernumber || "لم يتم اضافه رقم"}
+                <span className="font-semibold mr-1">
+                  {" "}
+                  {scannedData.brothernumber || "لم يتم اضافه رقم"}
+                </span>
               </p>
             </div>
           </div>
