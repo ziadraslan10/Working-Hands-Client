@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 export default function Footer() {
   return (
     <>
-      <div className="  w-full bg-sky-600 p-4 text-slate-200">
-        <h1 className=" font-bold text-center text-2xl">الايدي العاملة</h1>
+      <div className="  w-full bg-[#3c8dad] p-4 text-slate-200">
+        <h1 className=" font-bold text-center text-2xl">نظام الرصد الذكي</h1>
         <div>
           <ul className=" lg:flex justify-evenly items-center lg:my-6">
             <li className="pt-1 ">

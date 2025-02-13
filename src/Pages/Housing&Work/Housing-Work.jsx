@@ -1,14 +1,27 @@
 /* eslint-disable no-unused-vars */
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { RegisterContext } from "../../Context/registerContext";
+import axios from "axios";
 
 function Housing_Work() {
   let navigate = useNavigate();
   let [isLoading, setIsLoading] = useState(false);
   let { registerData, setRegisterData } = useContext(RegisterContext);
-  console.log(registerData);
-  
+  const [labels, setLabels] = useState([]);
+  useEffect(() => {
+    const getLabels = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/label`);
+        setLabels(res.data.labels);
+      } catch (err) {
+        console.error("Error fetching labels", err);
+      }
+    };
+    getLabels();
+  }, []);
+
+
 
   const handleRegister = (event) => {
     event.preventDefault();
@@ -50,8 +63,9 @@ function Housing_Work() {
         {/* Job Title */}
         <div className="mb-5">
           <label htmlFor="jobtitle" className="block mb-2 text-sm font-medium text-gray-900">
-            الاسم الوظيفي
+            {labels.length > 0 ? labels[0].label : "Loading..."}
           </label>
+
           <input
             type="text"
             name="jobtitle"
@@ -64,7 +78,7 @@ function Housing_Work() {
         {/* Height */}
         <div className="mb-5">
           <label htmlFor="height" className="block mb-2 text-sm font-medium text-gray-900">
-            الطول
+            {labels.length > 0 ? labels[1].label : "Loading..."}
           </label>
           <input
             type="text"

@@ -8,11 +8,11 @@ function SearchOptions() {
       <div className="flex justify-center items-center gap-4">
         <Link
           to={"/search"}
-          className="flex bg-sky-600 px-3 py-2 rounded-lg"
+          className="flex bg-sky-600 px-3 py-2 rounded-lg lg:text-lg text-sm"
         >
           البحث عن طريق الرقم الخاص
         </Link>
-        <Link to={"/scanqr"} className="flex bg-sky-600 px-3 py-2 rounded-lg">
+        <Link to={"/scanqr"} className="flex bg-sky-600 px-3 py-2 rounded-lg lg:text-lg text-sm">
           البحث عن طريق البار كود
         </Link>
       </div>

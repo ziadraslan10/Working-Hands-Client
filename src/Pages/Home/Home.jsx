@@ -41,13 +41,14 @@ function Home() {
           <h1 className="font-bold text-2xl ">{mainData?.title}</h1>
         </div>
         <p className="text-center">{mainData?.description}</p>
-        <div className="grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 gap-4 mt-8 ">
-          {loading ? (
-            <div className="flex justify-center items-center">
-              <Loading />
-            </div>
-          ) : (
-            mainData?.MainPictures?.map((picture) => (
+
+        {loading ? (
+          <div className="flex justify-center items-center">
+            <Loading />
+          </div>
+        ) : (
+          <div className="grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 gap-4 mt-8">
+            {mainData?.MainPictures?.map((picture) => (
               <div key={picture.id}>
                 <p className="mb-3 text-sm">{picture.title}</p>
                 <img
@@ -56,9 +57,11 @@ function Home() {
                   alt={picture.title}
                 />
               </div>
-            ))
-          )}
-        </div>
+            ))}
+          </div> // <-- Closing div added here
+        )}
+
+
         <div className="flex flex-col justify-center items-center">
           <button className="bg-gradient-to-b from-slate-100 to-sky-600 text-black px-4 py-2 rounded mt-8">
             <Link to="/login">تسجيل الدخول</Link>

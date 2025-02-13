@@ -31,7 +31,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className=" bg-sky-500 py-5 px-10 lg:px-20 z-50">
+    <nav className=" bg-[#3c8dad] py-5 px-10 lg:px-20 z-50">
       <div className="flex justify-between items-center">
         <div className="flex items-center rounded-full">
           <Link to="/">
