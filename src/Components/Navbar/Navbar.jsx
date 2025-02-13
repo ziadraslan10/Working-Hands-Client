@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { useContext, useState } from "react";
-import mainLogo from "../../assets/الايدي العاملة 1.png";
+import mainLogo from "../../assets/logo.jpg";
 import { FaRegUser } from "react-icons/fa";
 import {
   FaYoutube,
@@ -38,7 +38,7 @@ const Navbar = () => {
             <img
               src={mainLogo}
               alt="Main Logo"
-              className="w-10 h-10 rounded-full"
+              className="w-40 h-full rounded-md"
             />
           </Link>
         </div>
