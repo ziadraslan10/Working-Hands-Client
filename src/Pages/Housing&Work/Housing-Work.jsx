@@ -49,7 +49,7 @@ function Housing_Work() {
         {/* Lives In */}
         <div className="mb-5">
           <label htmlFor="livesin" className="block mb-3 text-sm font-medium text-gray-900">
-            السكن
+            محل الولادة
           </label>
           <input
             type="text"

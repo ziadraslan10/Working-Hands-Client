@@ -2,12 +2,15 @@
 import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { RegisterContext } from "../../Context/registerContext";
+import axios from "axios";
 
 function Register() {
   const navigate = useNavigate();
   let { setRegisterData } = useContext(RegisterContext);
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
+  const [exists, setexists] = useState(true);
+  const [err, seterr] = useState("")
   const [userData, setUserData] = useState({
     username: "",
     fullname: "",
@@ -23,14 +26,13 @@ function Register() {
 
   // Handle profile image selection
   // Handle profile image selection
-const handleImageChange = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    setImagePreview(URL.createObjectURL(file)); // Preview image
-    setUserData((prev) => ({ ...prev, profilepicture: file })); // Store file object (not URL)
-  }
-};
-
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setImagePreview(URL.createObjectURL(file)); // Preview image
+      setUserData((prev) => ({ ...prev, profilepicture: file })); // Store file object (not URL)
+    }
+  };
 
   // Handle form submission
   const handleRegister = async (event) => {
@@ -40,22 +42,44 @@ const handleImageChange = (event) => {
     // Save raw data (with file) in context
     setRegisterData(userData);
     console.log(userData);
-    
 
     setIsLoading(false);
     navigate("/register2");
   };
 
+  // handle email and username exists :
+  userData.email !== "" && userData.username !== ""
+    ? axios
+        .post(`${import.meta.env.VITE_BASE_URL}/api/users/checkemailusername`, {
+          email: userData.email,
+          username: userData.username,
+        })
+        .then((res) => {
+          console.log(res.data);
+          setexists(false);
+        })
+        .catch((err) => {
+          seterr(err.response.data.message);
+          setexists(true);
+        })
+    : null;
+
   return (
     <div className="py-6 max-w-xl mx-auto">
-      <h2 className="flex justify-center text-3xl font-bold mb-6">إنشاء حساب</h2>
+      <h2 className="flex justify-center text-3xl font-bold mb-6">
+        إنشاء حساب
+      </h2>
       <form onSubmit={handleRegister} className="flex flex-col items-center">
         {/* Profile Image Upload */}
         <div className="relative mb-6">
           <label htmlFor="imageUpload" className="cursor-pointer">
             <div className="w-32 h-32 rounded-full bg-gray-300 flex items-center justify-center overflow-hidden border-2 border-gray-400">
               {imagePreview ? (
-                <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                <img
+                  src={imagePreview}
+                  alt="Preview"
+                  className="w-full h-full object-cover"
+                />
               ) : (
                 <span className="text-gray-600">+</span>
               )}
@@ -74,7 +98,10 @@ const handleImageChange = (event) => {
 
         {/* Username */}
         <div className="mb-5 w-full">
-          <label htmlFor="username" className="block mb-2 text-sm font-medium text-gray-900">
+          <label
+            htmlFor="username"
+            className="block mb-2 text-sm font-medium text-gray-900"
+          >
             اسم المستخدم
           </label>
           <input
@@ -90,7 +117,10 @@ const handleImageChange = (event) => {
 
         {/* Full Name */}
         <div className="mb-5 w-full">
-          <label htmlFor="fullname" className="block mb-2 text-sm font-medium text-gray-900">
+          <label
+            htmlFor="fullname"
+            className="block mb-2 text-sm font-medium text-gray-900"
+          >
             الاسم الثلاثي
           </label>
           <input
@@ -106,7 +136,10 @@ const handleImageChange = (event) => {
 
         {/* Email */}
         <div className="mb-5 w-full">
-          <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
+          <label
+            htmlFor="email"
+            className="block mb-2 text-sm font-medium text-gray-900"
+          >
             البريد الإلكتروني
           </label>
           <input
@@ -125,11 +158,16 @@ const handleImageChange = (event) => {
           <button
             type="submit"
             className="bg-cyan-600 hover:bg-cyan-700 text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-8 py-3"
-            disabled={isLoading}
+            disabled={exists}
           >
-            {isLoading ? <i className="fa-solid fa-spinner fa-spin fa-lg"></i> : "التالي"}
+            {isLoading ? (
+              <i className="fa-solid fa-spinner fa-spin fa-lg"></i>
+            ) : (
+              "التالي"
+            )}
           </button>
         </div>
+        <div>{err ? <p className="mt-5 text-red-500 text-xl">{err}</p> : ""}</div>
       </form>
     </div>
   );

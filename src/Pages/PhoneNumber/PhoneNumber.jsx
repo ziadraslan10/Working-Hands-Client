@@ -11,6 +11,8 @@ function PhoneNumber() {
     useContext(RegisterContext);
   let [isLoading, setIsLoading] = useState(false);
   let [APIError, setAPIError] = useState("");
+  const [exists, setexists] = useState(true);
+  const [err, seterr] = useState("");
   let [isChecked, setIsChecked] = useState(false);
 
   const handleRegister = async (event) => {
@@ -19,7 +21,7 @@ function PhoneNumber() {
       setAPIError("يجب الموافقة على الشروط والأحكام");
       return;
     }
-    
+
     setIsLoading(true);
     setAPIError("");
 
@@ -60,8 +62,28 @@ function PhoneNumber() {
     } finally {
       setIsLoading(false);
     }
-  };
 
+    
+    // handle email and username exists :
+    updatedData.phonenumber !== "" && updatedData.privatenumber !== ""
+      ? axios
+          .post(
+            `${import.meta.env.VITE_BASE_URL}/api/users/checkphoneprivate`,
+            {
+              phonenumber: updatedData.phonenumber,
+              privatenumber: updatedData.privatenumber,
+            }
+          )
+          .then((res) => {
+            console.log(res.data);
+            setexists(false);
+          })
+          .catch((err) => {
+            seterr(err.response.data.message);
+            setexists(true);
+          })
+      : null;
+  };
   return (
     <div className="py-6 max-w-xl mx-auto">
       <h2 className="flex justify-center text-2xl font-bold mb-10">
@@ -112,19 +134,21 @@ function PhoneNumber() {
             htmlFor="terms"
             className="ml-2 text-sm font-medium text-gray-900"
           >
-            أوافق على الشروط والأحكام  
+            أوافق على الشروط والأحكام
           </label>
         </div>
         <div className="pb-2 text-gray-900 hover:underline hover:text-blue-400 flex text-center">
-        {/* <div className=""><HiOutlineCheck /></div>  */}
-        ✅<Link className="mx-1" to="/policy">سياسه الخصوصية والاستخدام</Link> 
+          {/* <div className=""><HiOutlineCheck /></div>  */}✅
+          <Link className="mx-1" to="/policy">
+            سياسه الخصوصية والاستخدام
+          </Link>
         </div>
 
         <div className="mx-2 mt-10 flex justify-center">
           <button
             type="submit"
             className="bg-cyan-600 text-white hover:bg-cyan-700 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-auto px-8 py-3 text-center"
-            disabled={isLoading}
+            disabled={exists && isLoading}
           >
             {isLoading ? (
               <i className="fa-solid fa-spinner fa-spin fa-lg"></i>
@@ -132,6 +156,9 @@ function PhoneNumber() {
               "أرسال"
             )}
           </button>
+        </div>
+        <div>
+          {err ? <p className="mt-5 text-red-500 text-xl">{err}</p> : ""}
         </div>
       </form>
 

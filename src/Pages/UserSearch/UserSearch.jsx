@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import axios from "axios";
 import { useState } from "react";
 import { FaHome, FaSearch } from "react-icons/fa";
@@ -11,6 +10,7 @@ function UserSearch() {
   const [searchValue, setSearchValue] = useState("");
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [labels, setLabels] = useState([]);
   const [error, setError] = useState(null);
 
   // Handle input change
@@ -41,6 +41,11 @@ function UserSearch() {
         setLoading(false);
       });
   };
+
+  axios
+    .get(`${import.meta.env.VITE_BASE_URL}/api/label`)
+    .then((res) => setLabels(res.data.labels))
+    .catch((err) => console.error("Error fetching labels", err));
 
   return (
     <div className="max-w-lg mx-auto p-6 min-h-96">
@@ -81,7 +86,9 @@ function UserSearch() {
               <h2 className="text-lg font-semibold text-white">
                 {userData.fullname}
               </h2>
-              <p className="text-red-500 text-sm font-bold">{userData.status}</p>
+              <p className="text-red-500 text-sm font-bold">
+                {userData.status}
+              </p>
             </div>
           </div>
 
@@ -98,17 +105,25 @@ function UserSearch() {
             </p>
             <p className="flex items-center">
               <FaHome className="ml-2" />
-              <span className="font-semibold mr-1">يسكن في:</span>
+              <span className="font-semibold mr-1"> محل الولادة :</span>
               {userData.livesin}
             </p>
             <p className="flex items-center">
               <IoIosPhonePortrait className="ml-2" />
-              <span className="font-semibold mr-1">الوظيفة:</span>
+              <span className="font-semibold mr-1">
+                {" "}
+                {labels.length > 0
+                  ? labels[0].label + " : "
+                  : ": المسمى الوظيفي :"}
+              </span>
               {userData.jobtitle}
             </p>
             <p className="flex items-center">
-              <RiImageEditLine  className="ml-2" />
-              <span className="font-semibold mr-1">الطول:</span>
+              <RiImageEditLine className="ml-2" />
+              <span className="font-semibold mr-1">
+                {" "}
+                {labels.length > 0 ? labels[1].label + " : " : ":  الطول :"}
+              </span>
               {userData.height} سم
             </p>
             <p className="flex items-center">
@@ -116,12 +131,15 @@ function UserSearch() {
               <span className="font-semibold mr-1">الرقم الخاص:</span>
               {userData.privatenumber}
             </p>
-            <br />
+            {/* <br /> */}
             {/* <p className="flex items-center">
               <MdEmail className="ml-2" />
               <span className="font-semibold mr-1">البريد الإلكتروني:</span>
               {userData.email}
             </p> */}
+                    <div>
+          <p className=" font-bold text-xl">بيانات الاتصال :</p>
+        </div>
             <p className="flex items-center">
               <FaPhone className="ml-2" />
               <span className="font-semibold mr-1">رقم الهاتف:</span>
