@@ -555,7 +555,7 @@ function UserData() {
           {/* brothernumber */}
           <div className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm">
             {editingField != "brothernumber" && userData.brothernumber ? (
-              <span className="font-bold text-gray-500">اسم الاخ:</span>
+              <span className="font-bold text-gray-500"></span>
             ) : (
               ""
             )}
@@ -592,7 +592,7 @@ function UserData() {
           {/* fathernumber */}
           <div className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm">
             {editingField != "fathernumber" && userData.fathernumber ? (
-              <span className="font-bold text-gray-500">اسم الاب:</span>
+              <span className="font-bold text-gray-500"></span>
             ) : (
               ""
             )}

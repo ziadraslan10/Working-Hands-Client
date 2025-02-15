@@ -112,7 +112,7 @@ function PhoneNumber() {
             الرقم الخاص
           </label>
           <input
-            type="tel"
+            type="text"
             name="privatenumber"
             id="privatenumber"
             value={phoneData.privatenumber}
