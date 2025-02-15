@@ -1,9 +1,8 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { RegisterContext } from "../../Context/registerContext";
-import { HiOutlineCheck } from "react-icons/hi";
 
 function PhoneNumber() {
   let navigate = useNavigate();
@@ -11,10 +10,46 @@ function PhoneNumber() {
     useContext(RegisterContext);
   let [isLoading, setIsLoading] = useState(false);
   let [APIError, setAPIError] = useState("");
-  const [exists, setexists] = useState(true);
-  const [err, seterr] = useState("");
+  const [exists, setExists] = useState(null); // null: no check, true: exists, false: does not exist
+  const [err, setErr] = useState("");
   let [isChecked, setIsChecked] = useState(false);
+  const [phoneData, setPhoneData] = useState({
+    phonenumber: "",
+    privatenumber: "",
+  });
 
+  // Handle input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setPhoneData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // Check if phone number and private number exist
+  useEffect(() => {
+    if (phoneData.phonenumber && phoneData.privatenumber) {
+      axios
+        .post(
+          `${import.meta.env.VITE_BASE_URL}/api/users/checkphoneprivate`,
+          {
+            phonenumber: phoneData.phonenumber,
+            privatenumber: phoneData.privatenumber,
+          }
+        )
+        .then(() => {
+          setExists(false);
+          setErr("Okay");
+        })
+        .catch((err) => {
+          setExists(true);
+          setErr(err.response?.data?.message || "Error checking numbers");
+        });
+    } else {
+      setExists(null);
+      setErr("");
+    }
+  }, [phoneData.phonenumber, phoneData.privatenumber]);
+
+  // Handle form submission
   const handleRegister = async (event) => {
     event.preventDefault();
     if (!isChecked) {
@@ -25,9 +60,7 @@ function PhoneNumber() {
     setIsLoading(true);
     setAPIError("");
 
-    const formData = new FormData(event.target);
-    const data = Object.fromEntries(formData);
-    const updatedData = { ...registerData, ...data };
+    const updatedData = { ...registerData, ...phoneData };
     setRegisterData(updatedData);
 
     const finalData = new FormData();
@@ -62,34 +95,15 @@ function PhoneNumber() {
     } finally {
       setIsLoading(false);
     }
-
-    
-    // handle email and username exists :
-    updatedData.phonenumber !== "" && updatedData.privatenumber !== ""
-      ? axios
-          .post(
-            `${import.meta.env.VITE_BASE_URL}/api/users/checkphoneprivate`,
-            {
-              phonenumber: updatedData.phonenumber,
-              privatenumber: updatedData.privatenumber,
-            }
-          )
-          .then((res) => {
-            console.log(res.data);
-            setexists(false);
-          })
-          .catch((err) => {
-            seterr(err.response.data.message);
-            setexists(true);
-          })
-      : null;
   };
+
   return (
     <div className="py-6 max-w-xl mx-auto">
       <h2 className="flex justify-center text-2xl font-bold mb-10">
         أدخل رقم هاتفك ورقم فريد خاص بك
       </h2>
       <form onSubmit={handleRegister}>
+        {/* Private Number */}
         <div className="mb-5">
           <label
             htmlFor="privatenumber"
@@ -101,11 +115,14 @@ function PhoneNumber() {
             type="tel"
             name="privatenumber"
             id="privatenumber"
+            value={phoneData.privatenumber}
+            onChange={handleChange}
             className="bg-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
           />
         </div>
 
+        {/* Phone Number */}
         <div className="mb-5">
           <label
             htmlFor="phonenumber"
@@ -117,11 +134,21 @@ function PhoneNumber() {
             type="tel"
             name="phonenumber"
             id="phonenumber"
+            value={phoneData.phonenumber}
+            onChange={handleChange}
             className="bg-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             required
           />
         </div>
 
+        {/* Message */}
+        {err && (
+          <div className={`mt-2 text-sm ${exists ? "text-red-500" : "text-green-500"}`}>
+            {err}
+          </div>
+        )}
+
+        {/* Terms & Conditions */}
         <div className="mb-5 flex items-center gap-2">
           <input
             type="checkbox"
@@ -137,18 +164,20 @@ function PhoneNumber() {
             أوافق على الشروط والأحكام
           </label>
         </div>
+
         <div className="pb-2 text-gray-900 hover:underline hover:text-blue-400 flex text-center">
-          {/* <div className=""><HiOutlineCheck /></div>  */}✅
+          ✅
           <Link className="mx-1" to="/policy">
             سياسه الخصوصية والاستخدام
           </Link>
         </div>
 
+        {/* Submit Button */}
         <div className="mx-2 mt-10 flex justify-center">
           <button
             type="submit"
             className="bg-cyan-600 text-white hover:bg-cyan-700 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm w-auto px-8 py-3 text-center"
-            disabled={exists && isLoading}
+            disabled={exists || isLoading}
           >
             {isLoading ? (
               <i className="fa-solid fa-spinner fa-spin fa-lg"></i>
@@ -157,16 +186,14 @@ function PhoneNumber() {
             )}
           </button>
         </div>
-        <div>
-          {err ? <p className="mt-5 text-red-500 text-xl">{err}</p> : ""}
-        </div>
-      </form>
 
-      {APIError && (
-        <div className="mt-4 text-red-500 text-center">
-          <p>حدث خطأ: {APIError}</p>
-        </div>
-      )}
+        {/* API Error Message */}
+        {APIError && (
+          <div className="mt-4 text-red-500 text-center">
+            <p>حدث خطأ: {APIError}</p>
+          </div>
+        )}
+      </form>
     </div>
   );
 }

@@ -9,16 +9,16 @@ export default function Footer() {
         <h1 className=" font-bold text-center text-2xl">نظام الرصد الذكي</h1>
         <div>
           <ul className=" lg:flex justify-evenly items-center lg:my-6">
-            <li className="pt-1 ">
+            {/* <li className="pt-1 ">
               <Link to=""> الشروط والاحكام</Link>
-            </li>
+            </li> */}
             <li className="pt-1 ">
               <Link to="/whoweare">من نحن</Link>
             </li>
-            {/* <li className="pt-1 ">
+            <li className="pt-1 ">
               <Link to="/policy"> سياسة الخصوصية</Link>
             </li>
-            <li className="pt-1">
+            {/* <li className="pt-1">
               <Link to=""> اتصل بنا</Link>
             </li> */}
           </ul>

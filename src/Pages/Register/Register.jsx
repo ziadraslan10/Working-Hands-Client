@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { RegisterContext } from "../../Context/registerContext";
 import axios from "axios";
@@ -9,8 +9,8 @@ function Register() {
   let { setRegisterData } = useContext(RegisterContext);
   const [isLoading, setIsLoading] = useState(false);
   const [imagePreview, setImagePreview] = useState(null);
-  const [exists, setexists] = useState(true);
-  const [err, seterr] = useState("")
+  const [exists, setExists] = useState(null); // null: no check, true: exists, false: does not exist
+  const [message, setMessage] = useState("");
   const [userData, setUserData] = useState({
     username: "",
     fullname: "",
@@ -25,12 +25,11 @@ function Register() {
   };
 
   // Handle profile image selection
-  // Handle profile image selection
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       setImagePreview(URL.createObjectURL(file)); // Preview image
-      setUserData((prev) => ({ ...prev, profilepicture: file })); // Store file object (not URL)
+      setUserData((prev) => ({ ...prev, profilepicture: file })); // Store file object
     }
   };
 
@@ -47,22 +46,27 @@ function Register() {
     navigate("/register2");
   };
 
-  // handle email and username exists :
-  userData.email !== "" && userData.username !== ""
-    ? axios
+  // Check if email or username exists
+  useEffect(() => {
+    if (userData.email && userData.username) {
+      axios
         .post(`${import.meta.env.VITE_BASE_URL}/api/users/checkemailusername`, {
           email: userData.email,
           username: userData.username,
         })
         .then((res) => {
-          console.log(res.data);
-          setexists(false);
+          setExists(false);
+          setMessage("Okay");
         })
         .catch((err) => {
-          seterr(err.response.data.message);
-          setexists(true);
-        })
-    : null;
+          setExists(true);
+          setMessage(err.response?.data?.message || "Error checking details");
+        });
+    } else {
+      setExists(null);
+      setMessage("");
+    }
+  }, [userData.email, userData.username]);
 
   return (
     <div className="py-6 max-w-xl mx-auto">
@@ -153,6 +157,13 @@ function Register() {
           />
         </div>
 
+        {/* Message */}
+        {message && (
+          <div className={`mt-2 text-sm ${exists ? "text-red-500" : "text-green-500"}`}>
+            {message}
+          </div>
+        )}
+
         {/* Submit Button */}
         <div className="mt-8">
           <button
@@ -167,7 +178,6 @@ function Register() {
             )}
           </button>
         </div>
-        <div>{err ? <p className="mt-5 text-red-500 text-xl">{err}</p> : ""}</div>
       </form>
     </div>
   );
