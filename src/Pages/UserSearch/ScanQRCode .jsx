@@ -6,6 +6,7 @@ import { FaPhone } from "react-icons/fa6";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { MdDateRange } from "react-icons/md";
 import { RiImageEditLine } from "react-icons/ri";
+import { FaUserSecret } from "react-icons/fa"
 const ScanQRCode = () => {
   const [scannedData, setScannedData] = useState(null);
   const [error, setError] = useState("");
@@ -103,7 +104,7 @@ const ScanQRCode = () => {
                 {scannedData.height} سم
               </p>
               <p className="flex items-center">
-                <FaPhone className="ml-2" />
+                <FaUserSecret className="ml-2" />
                 <span className="font-semibold mr-1">الرقم الخاص:</span>
                 {scannedData.privatenumber}
               </p>

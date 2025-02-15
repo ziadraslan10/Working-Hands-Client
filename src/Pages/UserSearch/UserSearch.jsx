@@ -5,7 +5,7 @@ import { FaPhone } from "react-icons/fa6";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { MdDateRange } from "react-icons/md";
 import { RiImageEditLine } from "react-icons/ri";
-
+import { FaUserSecret } from "react-icons/fa";
 function UserSearch() {
   const [searchValue, setSearchValue] = useState("");
   const [userData, setUserData] = useState(null);
@@ -124,10 +124,12 @@ function UserSearch() {
                 {" "}
                 {labels.length > 0 ? labels[1].label + " : " : ":  الطول :"}
               </span>
+              =======
+              <span className="font-semibold mr-1">الطول:</span>
               {userData.height} سم
             </p>
             <p className="flex items-center">
-              <FaPhone className="ml-2" />
+              <FaUserSecret className="ml-2" />
               <span className="font-semibold mr-1">الرقم الخاص:</span>
               {userData.privatenumber}
             </p>
@@ -137,9 +139,9 @@ function UserSearch() {
               <span className="font-semibold mr-1">البريد الإلكتروني:</span>
               {userData.email}
             </p> */}
-                    <div>
-          <p className=" font-bold text-xl">بيانات الاتصال :</p>
-        </div>
+            <div>
+              <p className=" font-bold text-xl">بيانات الاتصال :</p>
+            </div>
             <p className="flex items-center">
               <FaPhone className="ml-2" />
               <span className="font-semibold mr-1">رقم الهاتف:</span>

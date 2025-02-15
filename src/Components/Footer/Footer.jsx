@@ -15,12 +15,12 @@ export default function Footer() {
             <li className="pt-1 ">
               <Link to="/whoweare">من نحن</Link>
             </li>
-            <li className="pt-1 ">
+            {/* <li className="pt-1 ">
               <Link to="/policy"> سياسة الخصوصية</Link>
             </li>
             <li className="pt-1">
               <Link to=""> اتصل بنا</Link>
-            </li>
+            </li> */}
           </ul>
         </div>
         <div>
