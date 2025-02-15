@@ -124,7 +124,6 @@ function UserSearch() {
                 {" "}
                 {labels.length > 0 ? labels[1].label + " : " : ":  الطول :"}
               </span>
-              =======
               <span className="font-semibold mr-1">الطول:</span>
               {userData.height} سم
             </p>
