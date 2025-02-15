@@ -107,7 +107,7 @@ function UserData() {
     axios
       .post(
         `${import.meta.env.VITE_BASE_URL}/api/edits/addeditrequest`,
-        { formData },
+        formData,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("userToken")}`,
@@ -120,8 +120,7 @@ function UserData() {
           ...prev,
           profilepicture: selectedImage,
         }));
-        console.log(res.data.message);
-        console.log(userData);
+        window.location.reload(false);
       })
       .catch((err) => {
         console.error("Error uploading image", err);
@@ -130,7 +129,6 @@ function UserData() {
     setSelectedImage(null);
     setEditingField(null);
     setPendingApprovalMessage(`تم إرسال طلب .... يرجي الانتظار`);
-
     setIsUploading(false);
   };
   // //////////////////////////////////////////////////////////////
@@ -158,11 +156,10 @@ function UserData() {
         <button
           onClick={handleUpload}
           disabled={!selectedImage || isUploading}
-          className={`mt-2 px-4 py-2 rounded-lg text-white ${
-            isUploading
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-blue-500 hover:bg-blue-600"
-          }`}
+          className={`mt-2 px-4 py-2 rounded-lg text-white ${isUploading
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-blue-500 hover:bg-blue-600"
+            }`}
         >
           {isUploading ? "Uploading..." : "Change Image"}
           <FaUpload className="inline ml-2" />
@@ -177,9 +174,8 @@ function UserData() {
             <div className="relative">
               <img
                 className="max-w-full max-h-[90vh] rounded-lg"
-                src={`${import.meta.env.VITE_BASE_URL}${
-                  userData.profilepicture
-                }`}
+                src={`${import.meta.env.VITE_BASE_URL}${userData.profilepicture
+                  }`}
                 alt={userData.fullname}
                 onClick={(e) => e.stopPropagation()} // Prevent modal close when clicking image
               />
