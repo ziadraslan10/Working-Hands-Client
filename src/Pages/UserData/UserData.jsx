@@ -1,7 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { FaEdit, FaSave, FaUpload } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { RegisterContext } from "../../Context/registerContext";
 
 function UserData() {
   const [userData, setUserData] = useState(null);
@@ -13,6 +16,7 @@ function UserData() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
+  let { setidCode } = useContext(RegisterContext);
 
   useEffect(() => {
     axios
@@ -23,6 +27,9 @@ function UserData() {
       })
       .then((res) => {
         setUserData(res.data.user);
+        setidCode(res.data.user.id);
+
+
         // console.log(res.data.user);
 
         setOriginalData(res.data.user);
@@ -66,6 +73,9 @@ function UserData() {
           }
         )
         .then((res) => {
+          console.log(res.data.request.id);
+          localStorage.setItem("id", res.data.request.id);
+          
           setUserData((prevUserData) => ({
             ...prevUserData,
             ...updateRequest,
@@ -156,10 +166,11 @@ function UserData() {
         <button
           onClick={handleUpload}
           disabled={!selectedImage || isUploading}
-          className={`mt-2 px-4 py-2 rounded-lg text-white ${isUploading
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-blue-500 hover:bg-blue-600"
-            }`}
+          className={`mt-2 px-4 py-2 rounded-lg text-white ${
+            isUploading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600"
+          }`}
         >
           {isUploading ? "Uploading..." : "Change Image"}
           <FaUpload className="inline ml-2" />
@@ -174,8 +185,9 @@ function UserData() {
             <div className="relative">
               <img
                 className="max-w-full max-h-[90vh] rounded-lg"
-                src={`${import.meta.env.VITE_BASE_URL}${userData.profilepicture
-                  }`}
+                src={`${import.meta.env.VITE_BASE_URL}${
+                  userData.profilepicture
+                }`}
                 alt={userData.fullname}
                 onClick={(e) => e.stopPropagation()} // Prevent modal close when clicking image
               />
@@ -363,7 +375,7 @@ function UserData() {
             ) : (
               <span className="text-black">{userData.jobtitle}</span>
             )}
-            <button
+            {/* <button
               onClick={() =>
                 editingField === "jobtitle"
                   ? handleSave("jobtitle")
@@ -378,7 +390,7 @@ function UserData() {
               ) : (
                 <FaEdit />
               )}
-            </button>
+            </button> */}
           </div>
 
           {/* livesin */}
@@ -436,7 +448,7 @@ function UserData() {
             ) : (
               <span className="text-black">{userData.height}</span>
             )}
-            <button
+            {/* <button
               onClick={() =>
                 editingField === "height"
                   ? handleSave("height")
@@ -451,7 +463,7 @@ function UserData() {
               ) : (
                 <FaEdit />
               )}
-            </button>
+            </button> */}
           </div>
 
           {/* status */}
@@ -524,7 +536,7 @@ function UserData() {
             ) : (
               <span className="text-black">{userData.privatenumber}</span>
             )}
-            <button
+            {/* <button
               onClick={() =>
                 editingField === "privatenumber"
                   ? handleSave("privatenumber")
@@ -539,7 +551,7 @@ function UserData() {
               ) : (
                 <FaEdit />
               )}
-            </button>
+            </button> */}
           </div>
         </div>
 
@@ -632,6 +644,14 @@ function UserData() {
             {pendingApprovalMessage}
           </div>
         )}
+        <div className="text-center mt-8">
+          <Link
+            to={`/confirmusercode`}
+            className="py-1 px-2 rounded-md bg-green-500 hover:bg-green-600"
+          >
+            تحقق بالكود
+          </Link>
+        </div>
       </div>
     </div>
   );

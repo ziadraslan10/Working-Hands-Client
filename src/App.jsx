@@ -25,6 +25,7 @@ import Whoweare from "./Pages/WhoWeAre/WhoWeAre";
 import GenerateQRCode from "./Pages/UserSearch/GenerateQRCode .jsx";
 import ScanQRCode from "./Pages/UserSearch/ScanQRCode .jsx";
 import SearchOptions from "./Pages/UserSearch/SearchOptions.jsx";
+import ConfirmUserCode from "./Pages/ConfirmUserCode/ConfirmCode.jsx";
 
 
 function App() {
@@ -48,6 +49,7 @@ function App() {
         { path: "/generateqr", element: <GenerateQRCode />  },
         { path: "/scanqr", element: <ScanQRCode />  },
         { path: "/code", element: <ConfirmCode />  },
+        { path: "/confirmusercode", element: <ConfirmUserCode />  },
         { path: "/forgetPassword", element: <ForgetPassword />  },
         { path: "/updatePassword", element: <UpdatePassword />  },
         {path: "/policy" , element: <Policy/>},

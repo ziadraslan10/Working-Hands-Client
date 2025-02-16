@@ -40,12 +40,13 @@ function UserSearch() {
       .finally(() => {
         setLoading(false);
       });
+      axios
+      .get(`${import.meta.env.VITE_BASE_URL}/api/label`)
+      .then((res) => setLabels(res.data.labels))
+      .catch((err) => console.error("Error fetching labels", err));
   };
 
-  axios
-    .get(`${import.meta.env.VITE_BASE_URL}/api/label`)
-    .then((res) => setLabels(res.data.labels))
-    .catch((err) => console.error("Error fetching labels", err));
+
 
   return (
     <div className="max-w-lg mx-auto p-6 min-h-96">
@@ -86,9 +87,15 @@ function UserSearch() {
               <h2 className="text-lg font-semibold text-white">
                 {userData.fullname}
               </h2>
-              <p className="text-red-500 text-sm font-bold">
+{userData.status == labels[3].label ? (
+                <p className="text-red-500 text-sm font-bold">
                 {userData.status}
               </p>
+              ) : (
+                <p className="text-green-500 text-sm font-bold">
+                {userData.status}
+              </p>
+)}
             </div>
           </div>
 

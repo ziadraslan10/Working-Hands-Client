@@ -9,6 +9,10 @@ function Home() {
   let navigate = useNavigate();
   const [mainData, setMainData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [tohen, settohen] = useState(
+    localStorage.getItem("userToken") ? true : false
+  );
+  console.log(tohen);
 
   useEffect(() => {
     function getMainData() {
@@ -61,15 +65,22 @@ function Home() {
           </div> // <-- Closing div added here
         )}
 
-
         <div className="flex flex-col justify-center items-center">
-          <button className="bg-gradient-to-b from-slate-100 to-sky-600 text-black px-4 py-2 rounded mt-8">
-            <Link to="/login">تسجيل الدخول</Link>
-          </button>
-          <Link to="/register" className="text-sm mt-2 block ">
-            لا تملك حساب؟{" "}
-            <span className="text-sky-500 hover:text-sky-700">انشاء حساب</span>
-          </Link>
+          {tohen ? (
+            <div className="mt-10"></div>
+          ) : (
+            <>
+              <button className="bg-gradient-to-b from-slate-100 to-sky-600 text-black px-4 py-2 rounded mt-8">
+                <Link to="/login">تسجيل الدخول</Link>
+              </button>
+              <Link to="/register" className="text-sm mt-2 block ">
+                لا تملك حساب؟{" "}
+                <span className="text-sky-500 hover:text-sky-700">
+                  انشاء حساب
+                </span>
+              </Link>
+            </>
+          )}
         </div>
         <div className="flex lg:justify-center justify-evenly mt-4 lg:gap-6">
           <Link
