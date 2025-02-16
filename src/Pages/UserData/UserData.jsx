@@ -5,7 +5,7 @@ import axios from "axios";
 import { FaEdit, FaSave, FaUpload } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { RegisterContext } from "../../Context/registerContext";
-
+import { CiBarcode } from "react-icons/ci";
 function UserData() {
   const [userData, setUserData] = useState(null);
   const [originalData, setOriginalData] = useState(null);
@@ -152,6 +152,7 @@ function UserData() {
             alt={userData.fullname}
             onClick={() => setIsModalOpen(true)}
           />
+          <Link className="bg-sky-500 flex justify-center gap-1 items-center text-white py-2 px-3 rounded-lg my-2" to={'/generateqr'}>انشاء باركود <CiBarcode /></Link>
           <h2 className="text-xl font-semibold mt-4">{userData.fullname}</h2>
           <p className="text-gray-500">{userData.jobtitle}</p>
         </div>
@@ -165,11 +166,10 @@ function UserData() {
         <button
           onClick={handleUpload}
           disabled={!selectedImage || isUploading}
-          className={`mt-2 px-4 py-2 rounded-lg text-white ${
-            isUploading
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-blue-500 hover:bg-blue-600"
-          }`}
+          className={`mt-2 px-4 py-2 rounded-lg text-white ${isUploading
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-blue-500 hover:bg-blue-600"
+            }`}
         >
           {isUploading ? "Uploading..." : "تغير الصوره "}
           <FaUpload className="inline ml-2" />
@@ -184,9 +184,8 @@ function UserData() {
             <div className="relative">
               <img
                 className="max-w-full max-h-[90vh] rounded-lg"
-                src={`${import.meta.env.VITE_BASE_URL}${
-                  userData.profilepicture
-                }`}
+                src={`${import.meta.env.VITE_BASE_URL}${userData.profilepicture
+                  }`}
                 alt={userData.fullname}
                 onClick={(e) => e.stopPropagation()} // Prevent modal close when clicking image
               />
