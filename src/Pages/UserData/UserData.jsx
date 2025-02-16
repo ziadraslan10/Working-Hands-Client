@@ -29,7 +29,6 @@ function UserData() {
         setUserData(res.data.user);
         setidCode(res.data.user.id);
 
-
         // console.log(res.data.user);
 
         setOriginalData(res.data.user);
@@ -75,7 +74,7 @@ function UserData() {
         .then((res) => {
           console.log(res.data.request.id);
           localStorage.setItem("id", res.data.request.id);
-          
+
           setUserData((prevUserData) => ({
             ...prevUserData,
             ...updateRequest,
@@ -172,7 +171,7 @@ function UserData() {
               : "bg-blue-500 hover:bg-blue-600"
           }`}
         >
-          {isUploading ? "Uploading..." : "Change Image"}
+          {isUploading ? "Uploading..." : "تغير الصوره "}
           <FaUpload className="inline ml-2" />
         </button>
         {/*  */}
@@ -644,14 +643,16 @@ function UserData() {
             {pendingApprovalMessage}
           </div>
         )}
-        <div className="text-center mt-8">
-          <Link
-            to={`/confirmusercode`}
-            className="py-1 px-2 rounded-md bg-green-500 hover:bg-green-600"
-          >
-            تحقق بالكود
-          </Link>
-        </div>
+        {pendingApprovalMessage && (
+          <div className="text-center mt-8">
+            <Link
+              to={`/confirmusercode`}
+              className="py-1 px-2 rounded-md bg-green-500 hover:bg-green-600"
+            >
+              تحقق بالكود
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
