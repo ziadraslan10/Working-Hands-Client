@@ -6,6 +6,7 @@ import { IoIosPhonePortrait } from "react-icons/io";
 import { MdDateRange } from "react-icons/md";
 import { RiImageEditLine } from "react-icons/ri";
 import { FaUserSecret } from "react-icons/fa";
+import privatenumber from '../../assets/resume.png';
 function UserSearch() {
   const [searchValue, setSearchValue] = useState("");
   const [userData, setUserData] = useState(null);
@@ -40,7 +41,7 @@ function UserSearch() {
       .finally(() => {
         setLoading(false);
       });
-      axios
+    axios
       .get(`${import.meta.env.VITE_BASE_URL}/api/label`)
       .then((res) => setLabels(res.data.labels))
       .catch((err) => console.error("Error fetching labels", err));
@@ -87,15 +88,15 @@ function UserSearch() {
               <h2 className="text-lg font-semibold text-white">
                 {userData.fullname}
               </h2>
-{userData.status == labels[3].label ? (
+              {userData.status == labels[3].label ? (
                 <p className="text-red-500 text-sm font-bold">
-                {userData.status}
-              </p>
+                  {userData.status}
+                </p>
               ) : (
                 <p className="text-green-500 text-sm font-bold">
-                {userData.status}
-              </p>
-)}
+                  {userData.status}
+                </p>
+              )}
             </div>
           </div>
 
@@ -135,7 +136,7 @@ function UserSearch() {
               {userData.height} سم
             </p>
             <p className="flex items-center">
-              <FaUserSecret className="ml-2" />
+              <img src={privatenumber} width={15}/>
               <span className="font-semibold mr-1">الرقم الخاص:</span>
               {userData.privatenumber}
             </p>

@@ -8,6 +8,7 @@ import { IoIosPhonePortrait } from "react-icons/io";
 import { MdDateRange } from "react-icons/md";
 import { RiImageEditLine } from "react-icons/ri";
 import { FaUserSecret } from "react-icons/fa";
+import privatenumber from '../../assets/resume.png';
 const ScanQRCode = () => {
   const [scannedData, setScannedData] = useState(null);
   const [error, setError] = useState("");
@@ -57,9 +58,8 @@ const ScanQRCode = () => {
           <div className="mt-6 p-4 bg-sky-500 border text-white border-gray-200 rounded-lg shadow-md">
             <div className="flex items-center gap-4">
               <img
-                src={`${import.meta.env.VITE_BASE_URL}${
-                  scannedData.profilepicture
-                }`}
+                src={`${import.meta.env.VITE_BASE_URL}${scannedData.profilepicture
+                  }`}
                 alt="Profile"
                 className="w-24 h-24 rounded-full border-2 border-blue-500"
               />
@@ -106,7 +106,7 @@ const ScanQRCode = () => {
                 {scannedData.height} سم
               </p>
               <p className="flex items-center">
-                <FaUserSecret className="ml-2" />
+                <img src={privatenumber} width={15} />
                 <span className="font-semibold mr-1">الرقم الخاص:</span>
                 {scannedData.privatenumber}
               </p>

@@ -61,7 +61,10 @@ function UserData() {
         setPendingApprovalMessage(`تم إرسال طلب .... يرجي الانتظار`)
         setEditingField(null);
       }
-
+      else {
+        // For other fields, show a message to reload the page
+        setPendingApprovalMessage("تم تعديل بيانات أخرى غير الاسم الكامل أو تاريخ الميلاد. يرجى إعادة تحميل الصفحة.");
+      }
       axios
         .post(
           `${import.meta.env.VITE_BASE_URL}/api/edits/addeditrequest`,
@@ -74,9 +77,7 @@ function UserData() {
           }
         )
         .then((res) => {
-          console.log(res.data.request.id);
           localStorage.setItem("id", res.data.request.id);
-
           setUserData((prevUserData) => ({
             ...prevUserData,
             ...updateRequest,
@@ -84,7 +85,7 @@ function UserData() {
           setOriginalData((prevOriginalData) => ({
             ...prevOriginalData,
             ...updateRequest,
-          }))
+          }));
           setEditingField(null);
         })
         .catch((err) => {
@@ -159,7 +160,7 @@ function UserData() {
             className="bg-sky-500 flex justify-center gap-1 items-center text-white py-2 px-3 rounded-lg my-2"
             to={"/generateqr"}
           >
-            انشاء باركود <CiBarcode />
+            <CiBarcode />
           </Link>
           <h2 className="text-xl font-semibold mt-4">{userData.fullname}</h2>
           <p className="text-gray-500">{userData.jobtitle}</p>
@@ -174,11 +175,10 @@ function UserData() {
         <button
           onClick={handleUpload}
           disabled={!selectedImage || isUploading}
-          className={`mt-2 px-4 py-2 rounded-lg text-white ${
-            isUploading
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-blue-500 hover:bg-blue-600"
-          }`}
+          className={`mt-2 px-4 py-2 rounded-lg text-white ${isUploading
+            ? "bg-gray-400 cursor-not-allowed"
+            : "bg-blue-500 hover:bg-blue-600"
+            }`}
         >
           {isUploading ? "Uploading..." : "تغير الصوره "}
           <FaUpload className="inline ml-2" />
@@ -193,9 +193,8 @@ function UserData() {
             <div className="relative">
               <img
                 className="max-w-full max-h-[90vh] rounded-lg"
-                src={`${import.meta.env.VITE_BASE_URL}${
-                  userData.profilepicture
-                }`}
+                src={`${import.meta.env.VITE_BASE_URL}${userData.profilepicture
+                  }`}
                 alt={userData.fullname}
                 onClick={(e) => e.stopPropagation()} // Prevent modal close when clicking image
               />
@@ -602,9 +601,9 @@ function UserData() {
               }}
               className="ml-2 text-blue-500"
             >
-              {first  ? 
+              {first ?
                 <FaEdit />
-                : 
+                :
                 <div className="text-green-500">
                   <FaSave />
                 </div>
@@ -632,7 +631,7 @@ function UserData() {
               </span>
             )}
             <button
-              onClick={() =>{
+              onClick={() => {
                 setsecond(!second);
                 editingField === "fathernumber"
                   ? handleSave("fathernumber")
@@ -640,9 +639,9 @@ function UserData() {
               }}
               className="ml-2 text-blue-500"
             >
-              {second  ? 
+              {second ?
                 <FaEdit />
-                : 
+                :
                 <div className="text-green-500">
                   <FaSave />
                 </div>
