@@ -12,6 +12,7 @@ function UserData() {
   const [editingField, setEditingField] = useState(null);
   const [updatedValue, setUpdatedValue] = useState("");
   const [pendingApprovalMessage, setPendingApprovalMessage] = useState("");
+  const [noreload, setnoreload] = useState(false);
   const [labels, setLabels] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -58,10 +59,13 @@ function UserData() {
           fullname: field === "livesin" ? userData.fullname : updatedValue,
           livesin: field === "fullname" ? userData.livesin : updatedValue,
         };
+        setnoreload(true);
         setPendingApprovalMessage(`تم إرسال طلب .... يرجي الانتظار`)
         setEditingField(null);
       }
       else {
+        setnoreload(false);
+
         // For other fields, show a message to reload the page
         setPendingApprovalMessage("تم تعديل بيانات أخرى غير الاسم الكامل أو تاريخ الميلاد. يرجى إعادة تحميل الصفحة.");
       }
@@ -655,16 +659,16 @@ function UserData() {
             {pendingApprovalMessage}
           </div>
         )}
-        {pendingApprovalMessage && (
-          <div className="text-center mt-8">
-            <Link
-              to={`/confirmusercode`}
-              className="py-1 px-2 rounded-md bg-green-500 hover:bg-green-600"
-            >
-              تحقق بالكود
-            </Link>
-          </div>
-        )}
+
+        <div className="text-center mt-8">
+          <Link
+            to={`/confirmusercode`}
+            className={noreload ? "py-1 px-2 rounded-md bg-green-500 hover:bg-green-600" : "hidden"}
+          >
+            تحقق بالكود
+          </Link>
+        </div>
+
       </div>
     </div>
   );
