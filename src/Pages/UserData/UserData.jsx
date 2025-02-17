@@ -17,6 +17,8 @@ function UserData() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
   let { setidCode } = useContext(RegisterContext);
+  const [first, setfirst] = useState("true");
+  const [second, setsecond] = useState("true");
 
   useEffect(() => {
     axios
@@ -53,10 +55,10 @@ function UserData() {
 
       if (field === "fullname" || field === "livesin") {
         updateRequest = {
-          fullname: updatedValue,
+          fullname: field === "livesin" ? userData.fullname : updatedValue,
           livesin: field === "fullname" ? userData.livesin : updatedValue,
         };
-        setPendingApprovalMessage(`تم إرسال طلب .... يرجي الانتظار`);
+        setPendingApprovalMessage(`تم إرسال طلب .... يرجي الانتظار`)
         setEditingField(null);
       }
 
@@ -82,15 +84,16 @@ function UserData() {
           setOriginalData((prevOriginalData) => ({
             ...prevOriginalData,
             ...updateRequest,
-          }));
+          }))
           setEditingField(null);
         })
         .catch((err) => {
           console.error("Error updating user data", err);
         });
     } else {
-      setEditingField(null);
+      setEditingField(null)
     }
+    setEditingField(null)
   };
 
   if (!userData) {
@@ -140,7 +143,7 @@ function UserData() {
     setPendingApprovalMessage(`تم إرسال طلب .... يرجي الانتظار`);
     setIsUploading(false);
   };
-  // //////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////
   return (
     <div className="flex min-h-screen lg:px-10">
       <div className="w-full bg-white shadow-lg rounded-lg p-6">
@@ -152,7 +155,12 @@ function UserData() {
             alt={userData.fullname}
             onClick={() => setIsModalOpen(true)}
           />
-          <Link className="bg-sky-500 flex justify-center gap-1 items-center text-white py-2 px-3 rounded-lg my-2" to={'/generateqr'}>انشاء باركود <CiBarcode /></Link>
+          <Link
+            className="bg-sky-500 flex justify-center gap-1 items-center text-white py-2 px-3 rounded-lg my-2"
+            to={"/generateqr"}
+          >
+            انشاء باركود <CiBarcode />
+          </Link>
           <h2 className="text-xl font-semibold mt-4">{userData.fullname}</h2>
           <p className="text-gray-500">{userData.jobtitle}</p>
         </div>
@@ -166,10 +174,11 @@ function UserData() {
         <button
           onClick={handleUpload}
           disabled={!selectedImage || isUploading}
-          className={`mt-2 px-4 py-2 rounded-lg text-white ${isUploading
-            ? "bg-gray-400 cursor-not-allowed"
-            : "bg-blue-500 hover:bg-blue-600"
-            }`}
+          className={`mt-2 px-4 py-2 rounded-lg text-white ${
+            isUploading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600"
+          }`}
         >
           {isUploading ? "Uploading..." : "تغير الصوره "}
           <FaUpload className="inline ml-2" />
@@ -184,8 +193,9 @@ function UserData() {
             <div className="relative">
               <img
                 className="max-w-full max-h-[90vh] rounded-lg"
-                src={`${import.meta.env.VITE_BASE_URL}${userData.profilepicture
-                  }`}
+                src={`${import.meta.env.VITE_BASE_URL}${
+                  userData.profilepicture
+                }`}
                 alt={userData.fullname}
                 onClick={(e) => e.stopPropagation()} // Prevent modal close when clicking image
               />
@@ -200,10 +210,10 @@ function UserData() {
         )}
 
         <div className="mt-8 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
-          {/* Fullname */}
+          {/* fullname */}
           <div className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm">
             {editingField != "fullname" ? (
-              <span className="font-bold text-gray-500">اسم المستخدم:</span>
+              <span className="font-bold text-gray-500">اسم المستخدم :</span>
             ) : (
               ""
             )}
@@ -394,7 +404,7 @@ function UserData() {
           {/* livesin */}
           <div className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm">
             {editingField != "livesin" ? (
-              <span className="font-bold text-gray-500">محل الولادة :</span>
+              <span className="font-bold text-gray-500"> محل الولادة:</span>
             ) : (
               ""
             )}
@@ -406,7 +416,9 @@ function UserData() {
                 onChange={(e) => setUpdatedValue(e.target.value)}
               />
             ) : (
-              <span className="text-black">{userData.livesin}</span>
+              <span className="text-black">
+                {userData.livesin || "غير متوفر"}
+              </span>
             )}
             <button
               onClick={() =>
@@ -563,12 +575,12 @@ function UserData() {
 
         <div className="mt-8 grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-6">
           {/* brothernumber */}
-          <div className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm">
-            {editingField != "brothernumber" && userData.brothernumber ? (
+          <div className="flex justify-between items-center  bg-gray-50 p-4 rounded-lg shadow-sm">
+            {/* {editingField != "brothernumber" && userData.brothernumber ? (
               <span className="font-bold text-gray-500"></span>
             ) : (
               ""
-            )}
+            )} */}
             {editingField === "brothernumber" ? (
               <input
                 type="text"
@@ -582,20 +594,21 @@ function UserData() {
               </span>
             )}
             <button
-              onClick={() =>
+              onClick={() => {
+                setfirst(!first);
                 editingField === "brothernumber"
                   ? handleSave("brothernumber")
-                  : handleEdit("brothernumber", userData.brothernumber)
-              }
+                  : handleEdit("brothernumber", userData.brothernumber);
+              }}
               className="ml-2 text-blue-500"
             >
-              {editingField === "brothernumber" ? (
+              {first  ? 
+                <FaEdit />
+                : 
                 <div className="text-green-500">
                   <FaSave />
                 </div>
-              ) : (
-                <FaEdit />
-              )}
+              }
             </button>
           </div>
 
@@ -619,20 +632,21 @@ function UserData() {
               </span>
             )}
             <button
-              onClick={() =>
+              onClick={() =>{
+                setsecond(!second);
                 editingField === "fathernumber"
                   ? handleSave("fathernumber")
                   : handleEdit("fathernumber", userData.fathernumber)
-              }
+              }}
               className="ml-2 text-blue-500"
             >
-              {editingField === "fathernumber" ? (
+              {second  ? 
+                <FaEdit />
+                : 
                 <div className="text-green-500">
                   <FaSave />
                 </div>
-              ) : (
-                <FaEdit />
-              )}
+              }
             </button>
           </div>
         </div>
