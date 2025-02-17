@@ -362,7 +362,7 @@ function UserData() {
           </div>
 
           {/* jobtitle */}
-          <div className="flex justify-between items-center bg-gray-50 p- rounded-lg shadow-sm">
+          <div className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm">
             {editingField != "jobtitle" ? (
               <span className="font-bold text-gray-500">
                 {" "}
@@ -614,11 +614,11 @@ function UserData() {
 
           {/* fathernumber */}
           <div className="flex justify-between items-center bg-gray-50 p-4 rounded-lg shadow-sm">
-            {editingField != "fathernumber" && userData.fathernumber ? (
+            {/* {editingField != "fathernumber" && userData.fathernumber ? (
               <span className="font-bold text-gray-500"></span>
             ) : (
               ""
-            )}
+            )} */}
             {editingField === "fathernumber" ? (
               <input
                 type="text"
