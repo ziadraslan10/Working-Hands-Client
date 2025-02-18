@@ -1,3 +1,4 @@
+/* eslint-disable no-irregular-whitespace */
 /* eslint-disable no-unused-vars */
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -44,7 +45,7 @@ function Housing_Work() {
 
   return (
     <div className="py-6 max-w-xl mx-auto">
-      <h2 className="flex justify-center text-3xl font-bold mb-10">أين تسكن وماذا تعمل الان</h2>
+      <h2 className="flex justify-center text-3xl font-bold mb-10">دخل البيانات التالية</h2>
       <form onSubmit={handleRegister}>
         {/* Lives In */}
         <div className="mb-5">
