@@ -1,17 +1,17 @@
 /* eslint-disable no-unused-vars */
 import axios from "axios";
-import React, {  useContext,useState } from "react";
+import React, { useContext, useState } from "react";
 import { RegisterContext } from "../../Context/registerContext";
 import { useNavigate } from "react-router-dom";
 
 
 function ConfirmCode() {
   let navigate = useNavigate();
-  let {idCode } = useContext(RegisterContext)
+  let { idCode } = useContext(RegisterContext)
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  
+
 
   function handleConfirmCode(e) {
     e.preventDefault();
@@ -26,7 +26,7 @@ function ConfirmCode() {
           navigate("/login")
         }, 2000);
       })
-      .catch((err) => {     
+      .catch((err) => {
         setError(err.message);
       });
   }
@@ -49,7 +49,7 @@ function ConfirmCode() {
         >
           ارسال
         </button>
-        {error && <p className="text-red-500 mt-2">{error}</p>}
+        {error && <p className="text-red-500 mt-2">{"الكود منتهي الصلاحية"}</p>}
         {success && <p className="text-green-500 mt-2">{success}</p>}
       </form>
     </div>

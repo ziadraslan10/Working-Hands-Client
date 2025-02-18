@@ -63,7 +63,7 @@ function ConfirmUserCode() {
         >
           ارسال
         </button>
-        {error && <p className="text-red-500 mt-2">{error}</p>}
+        {error && <p className="text-red-500 mt-2">{"الكود منتهي الصلاحية"}</p>}
         {success && <p className="text-green-500 mt-2">{success}</p>}
       </form>
     </div>
