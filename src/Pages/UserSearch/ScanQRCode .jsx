@@ -13,7 +13,7 @@ const ScanQRCode = () => {
   const [scannedData, setScannedData] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const [labels, setLabels] = useState([]);
   useEffect(() => {
     const scanner = new Html5QrcodeScanner("reader", {
       qrbox: 250,
@@ -38,12 +38,17 @@ const ScanQRCode = () => {
           setLoading(false);
         }
       },
-      () => setError("فشل مسح رمز QR، يرجى المحاولة مرة أخرى.")
+      () => setError("")
     );
 
     return () => scanner.clear();
   }, []);
-
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BASE_URL}/api/label`)
+      .then((res) => setLabels(res.data.labels))
+      .catch((err) => console.error("Error fetching labels", err));
+  })
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md text-center">
@@ -67,15 +72,15 @@ const ScanQRCode = () => {
                 <h2 className="text-lg font-semibold text-white">
                   {scannedData.fullname}
                 </h2>
-                <p
-                  className={
-                    scannedData.status === "يعمل"
-                      ? "text-green-600 text-sm"
-                      : "text-red-600 text-sm"
-                  }
-                >
-                  {scannedData.status}
-                </p>
+                {userData.status == labels[3].label ? (
+                  <p className="text-red-500 text-sm font-bold">
+                    {scannedData.status}
+                  </p>
+                ) : (
+                  <p className="text-green-500 text-sm font-bold">
+                    {scannedData.status}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -92,12 +97,16 @@ const ScanQRCode = () => {
               </p>
               <p className="flex items-center">
                 <FaHome className="ml-2" />
-                <span className="font-semibold mr-1">يسكن في:</span>
+                <span className="font-semibold mr-1">{labels.length > 0
+                  ? labels[1].label + " : "
+                  : ""}</span>
                 {scannedData.livesin}
               </p>
               <p className="flex items-center">
                 <IoIosPhonePortrait className="ml-2" />
-                <span className="font-semibold mr-1">الوظيفة:</span>
+                <span className="font-semibold mr-1">{labels.length > 0
+                  ? labels[0].label + " : "
+                  : ": المسمى الوظيفي :"}</span>
                 {scannedData.jobtitle}
               </p>
               <p className="flex items-center">
