@@ -7,8 +7,41 @@ function Age() {
   let navigate = useNavigate();
   let [isLoading, setIsLoading] = useState(false);
   let { registerData, setRegisterData } = useContext(RegisterContext);
-  console.log(registerData);
+
+  const [errors, setErrors] = useState({});
+
+  const validateInputs = (day, month, year) => {
+    let newErrors = {};
+
+    // Convert values to numbers
+    day = Number(day);
+    month = Number(month);
+    year = Number(year);
+
+    // Validate day
+    if (!day || day < 1 || day > 31) {
+      newErrors.day = "اليوم غير صحيح";
+    }
+
+    // Validate month
+    if (!month || month < 1 || month > 12) {
+      newErrors.month = "الشهر غير صحيح";
+    }
+
+    // Validate year (reasonable range)
+    const currentYear = new Date().getFullYear();
+    if (!year || year < 1910 || year > currentYear) {
+      newErrors.year = "العام غير صحيح";
+    }
+
+    // Check if user is at least 18 years old
+    const birthDate = new Date(year, month - 1, day);
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
   
+
+    return newErrors;
+  };
 
   const handleRegister = (event) => {
     event.preventDefault();
@@ -16,6 +49,13 @@ function Age() {
 
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData);
+
+    let validationErrors = validateInputs(data.day, data.month, data.year);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      setIsLoading(false);
+      return;
+    }
 
     let birthdate = `${data.month}-${data.day}-${data.year}`;
     setRegisterData((prevData) => ({ ...prevData, birthdate }));
@@ -26,7 +66,7 @@ function Age() {
 
   return (
     <div className="py-6 max-w-xl mx-auto">
-      <h2 className="flex justify-center text-3xl font-bold mb-10">أدخل تاريخ الميلادك</h2>
+      <h2 className="flex justify-center text-3xl font-bold mb-10">أدخل تاريخ الميلاد</h2>
       <form onSubmit={handleRegister}>
         <div className="flex">
           {/* Day */}
@@ -41,6 +81,7 @@ function Age() {
               className="bg-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               required
             />
+            {errors.day && <p className="text-red-500 text-xs mt-1">{errors.day}</p>}
           </div>
 
           {/* Month */}
@@ -55,6 +96,7 @@ function Age() {
               className="bg-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               required
             />
+            {errors.month && <p className="text-red-500 text-xs mt-1">{errors.month}</p>}
           </div>
 
           {/* Year */}
@@ -69,8 +111,12 @@ function Age() {
               className="bg-gray-300 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               required
             />
+            {errors.year && <p className="text-red-500 text-xs mt-1">{errors.year}</p>}
           </div>
         </div>
+
+        {/* Age Validation Error */}
+        {errors.age && <p className="text-red-500 text-xs mt-1 text-center">{errors.age}</p>}
 
         {/* Buttons */}
         <div className="mt-8 flex md:justify-evenly justify-end items-center">

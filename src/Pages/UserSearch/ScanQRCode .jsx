@@ -22,9 +22,9 @@ const ScanQRCode = () => {
     });
 
     axios
-    .get(`${import.meta.env.VITE_BASE_URL}/api/label`)
-    .then((res) => setLabels(res.data.labels))
-    .catch((err) => console.error("Error fetching labels", err));
+      .get(`${import.meta.env.VITE_BASE_URL}/api/label`)
+      .then((res) => setLabels(res.data.labels))
+      .catch((err) => console.error("Error fetching labels", err));
 
     scanner.render(
       async (decodedText) => {
@@ -79,7 +79,7 @@ const ScanQRCode = () => {
                   {scannedData.fullname}
                 </h2>
 
-                {userData.status == labels[3].label ? (
+                {scannedData.status == labels[3].label ? (
                   <p className="text-red-500 text-sm font-bold">
                     {scannedData.status}
                   </p>
@@ -88,8 +88,6 @@ const ScanQRCode = () => {
                     {scannedData.status}
                   </p>
                 )}
-
-            
 
               </div>
             </div>
@@ -107,9 +105,7 @@ const ScanQRCode = () => {
               </p>
               <p className="flex items-center">
                 <FaHome className="ml-2" />
-                <span className="font-semibold mr-1">{labels.length > 0
-                  ? labels[1].label + " : "
-                  : ""}</span>
+                <span className="font-semibold mr-1">محل الميلاد:</span>
                 {scannedData.livesin}
               </p>
               <p className="flex items-center">
@@ -121,7 +117,9 @@ const ScanQRCode = () => {
               </p>
               <p className="flex items-center">
                 <RiImageEditLine className="ml-2" />
-                <span className="font-semibold mr-1">الطول:</span>
+                <span className="font-semibold mr-1">{labels.length > 0
+                  ? labels[1].label + " : "
+                  : ""}</span>
                 {scannedData.height} سم
               </p>
               <p className="flex items-center">
