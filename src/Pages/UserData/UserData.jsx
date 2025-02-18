@@ -54,25 +54,24 @@ function UserData() {
     if (originalData && updatedValue !== originalData[field]) {
       let updateRequest = { [field]: updatedValue };
 
-      if (field === "fullname" || field === "livesin") {
+      // If fullname, livesin, or birthdate is being edited, send for admin approval
+      if (field === "fullname" || field === "livesin" || field === "birthdate") {
         updateRequest = {
-          fullname: field === "livesin" ? userData.fullname : updatedValue,
-          livesin: field === "fullname" ? userData.livesin : updatedValue,
+          fullname: field === "livesin" || field === "birthdate" ? userData.fullname : updatedValue,
+          livesin: field === "fullname" || field === "birthdate" ? userData.livesin : updatedValue,
+          birthdate: field === "fullname" || field === "livesin" ? userData.birthdate : updatedValue,
         };
         setnoreload(true);
-        setPendingApprovalMessage(`تم إرسال طلب .... يرجي الانتظار`)
+        setPendingApprovalMessage(`تم إرسال طلب تعديل ${field === "birthdate" ? "تاريخ الميلاد" : "المعلومات"}. يرجى الانتظار`);
         setEditingField(null);
-      }
-      else {
+      } else {
         setnoreload(false);
-
-        // For other fields, show a message to reload the page
         setPendingApprovalMessage("تم تعديل بيانات أخرى غير الاسم الكامل أو تاريخ الميلاد. يرجى إعادة تحميل الصفحة.");
       }
+
       axios
         .post(
           `${import.meta.env.VITE_BASE_URL}/api/edits/addeditrequest`,
-          // console.log(updateRequest),
           updateRequest,
           {
             headers: {
@@ -96,10 +95,11 @@ function UserData() {
           console.error("Error updating user data", err);
         });
     } else {
-      setEditingField(null)
+      setEditingField(null);
     }
-    setEditingField(null)
+    setEditingField(null);
   };
+
 
   if (!userData) {
     return <p className="text-center text-gray-500">Loading...</p>;
