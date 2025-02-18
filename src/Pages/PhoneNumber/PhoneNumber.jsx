@@ -161,16 +161,16 @@ function PhoneNumber() {
             htmlFor="terms"
             className="ml-2 text-sm font-medium text-gray-900"
           >
-            أوافق على الشروط والأحكام
+            أوافق على سياسه الخصوصية والاستخدام
           </label>
         </div>
 
-        <div className="pb-2 text-gray-900 hover:underline hover:text-blue-400 flex text-center">
+        {/* <div className="pb-2 text-gray-900 hover:underline hover:text-blue-400 flex text-center">
           ✅
           <Link className="mx-1" to="/policy">
-            سياسه الخصوصية والاستخدام
+            
           </Link>
-        </div>
+        </div> */}
 
         {/* Submit Button */}
         <div className="mx-2 mt-10 flex justify-center">

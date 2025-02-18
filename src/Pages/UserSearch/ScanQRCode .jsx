@@ -14,11 +14,17 @@ const ScanQRCode = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [labels, setLabels] = useState([]);
+
   useEffect(() => {
     const scanner = new Html5QrcodeScanner("reader", {
       qrbox: 250,
       fps: 10,
     });
+
+    axios
+    .get(`${import.meta.env.VITE_BASE_URL}/api/label`)
+    .then((res) => setLabels(res.data.labels))
+    .catch((err) => console.error("Error fetching labels", err));
 
     scanner.render(
       async (decodedText) => {
@@ -72,6 +78,7 @@ const ScanQRCode = () => {
                 <h2 className="text-lg font-semibold text-white">
                   {scannedData.fullname}
                 </h2>
+
                 {userData.status == labels[3].label ? (
                   <p className="text-red-500 text-sm font-bold">
                     {scannedData.status}
@@ -81,6 +88,9 @@ const ScanQRCode = () => {
                     {scannedData.status}
                   </p>
                 )}
+
+            
+
               </div>
             </div>
 
