@@ -51,7 +51,7 @@ function Home() {
             <Loading />
           </div>
         ) : (
-          <div className="grid md:grid-cols-3 lg:grid-cols-4 grid-cols-2 gap-4 mt-8">
+          <div className="grid lg:grid-cols-4 grid-cols-2 gap-4 mt-8">
             {mainData?.MainPictures?.map((picture) => (
               <div key={picture.id}>
                 <p className="mb-3 text-sm">{picture.title}</p>
@@ -93,7 +93,7 @@ function Home() {
             onClick={Serach}
             className="bg-gradient-to-r from-emerald-400 to-lime-600 text-sm py-2 px-3 rounded-lg"
           >
-            البحث عن الرقم الخاص
+            البحث عن طريق أدخال الرقم 
           </button>
         </div>
         <div className="my-6 mx-2 space-y-2">

@@ -1,18 +1,25 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaHome, FaSearch } from "react-icons/fa";
 import { FaPhone } from "react-icons/fa6";
 import { IoIosPhonePortrait } from "react-icons/io";
 import { MdDateRange } from "react-icons/md";
 import { RiImageEditLine } from "react-icons/ri";
-import { FaUserSecret } from "react-icons/fa";
-import privatenumber from '../../assets/resume.png';
+import privatenumber from "../../assets/resume.png";
+
 function UserSearch() {
   const [searchValue, setSearchValue] = useState("");
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [labels, setLabels] = useState([]);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get(`${import.meta.env.VITE_BASE_URL}/api/label`)
+      .then((res) => setLabels(res.data.labels))
+      .catch((err) => console.error("Error fetching labels", err));
+  }, []);
 
   // Handle input change
   const handleInputChange = (e) => {
@@ -41,13 +48,7 @@ function UserSearch() {
       .finally(() => {
         setLoading(false);
       });
-    axios
-      .get(`${import.meta.env.VITE_BASE_URL}/api/label`)
-      .then((res) => setLabels(res.data.labels))
-      .catch((err) => console.error("Error fetching labels", err));
   };
-
-
 
   return (
     <div className="max-w-lg mx-auto p-6 min-h-96">
@@ -108,21 +109,21 @@ function UserSearch() {
             </p> */}
             <p className="flex items-center">
               <MdDateRange className="ml-2" />
-              <span className="font-semibold mr-1">تاريخ الميلاد:</span>
-              {new Date(userData.birthdate).toLocaleDateString("ar-EG")}
+              <span className="font-semibold mr-1 pl-1"> تاريخ الميلاد : </span>
+              { new Date(userData.birthdate).toLocaleDateString("ar-EG")}
             </p>
             <p className="flex items-center">
               <FaHome className="ml-2" />
-              <span className="font-semibold mr-1"> محل الولادة :</span>
+              <span className="font-semibold mr-1 pl-1"> محل الولادة :</span>
               {userData.livesin}
             </p>
             <p className="flex items-center">
               <IoIosPhonePortrait className="ml-2" />
-              <span className="font-semibold mr-1">
+              <span className="font-semibold mr-1 pl-1">
                 {" "}
                 {labels.length > 0
                   ? labels[0].label + " : "
-                  : ": المسمى الوظيفي :"}
+                  : ""}
               </span>
               {userData.jobtitle}
             </p>
@@ -130,14 +131,14 @@ function UserSearch() {
               <RiImageEditLine className="ml-2" />
               <span className="font-semibold mr-1">
                 {" "}
-                {labels.length > 0 ? labels[1].label + " : " : ":  الطول :"}
+                {labels.length > 0 ? labels[1].label + " : " : ""}
               </span>
-              <span className="font-semibold mr-1">الطول:</span>
+              <span className="font-semibold mr-1"></span>
               {userData.height} سم
             </p>
             <p className="flex items-center">
-              <img src={privatenumber} width={15}/>
-              <span className="font-semibold mr-1">الرقم الخاص:</span>
+              <img src={privatenumber} width={15} />
+              <span className="font-semibold mr-1 pl-1">الرقم الخاص : </span>
               {userData.privatenumber}
             </p>
             {/* <br /> */}
@@ -151,17 +152,17 @@ function UserSearch() {
             </div>
             <p className="flex items-center">
               <FaPhone className="ml-2" />
-              <span className="font-semibold mr-1">رقم الهاتف:</span>
+              <span className="font-semibold mr-1 pl-1">رقم الهاتف :</span>
               {userData.phonenumber}
             </p>
             <p className="flex items-center">
               <FaPhone className="ml-2" />
-              <span className="font-semibold mr-1">رقم الأب:</span>
+              <span className="font-semibold mr-1"></span>
               {userData.fathernumber || "لم يتم اضافه رقم"}
             </p>
             <p className="flex items-center">
               <FaPhone className="ml-2" />
-              <span className="font-semibold mr-1">رقم الأخ:</span>
+              <span className="font-semibold mr-1"></span>
               {userData.brothernumber || "لم يتم اضافه رقم"}
             </p>
           </div>

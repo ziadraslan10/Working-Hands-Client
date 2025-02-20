@@ -10,10 +10,10 @@ function SearchOptions() {
           to={"/search"}
           className="flex bg-sky-600 px-3 py-2 rounded-lg lg:text-lg text-sm"
         >
-          البحث عن طريق الرقم الخاص
+          البحث عن طريق أدخال الرقم 
         </Link>
         <Link to={"/scanqr"} className="flex bg-sky-600 px-3 py-2 rounded-lg lg:text-lg text-sm">
-          البحث عن طريق البار كود
+          البحث عن طريق الباركود
         </Link>
       </div>
     </div>
