@@ -26,13 +26,13 @@ export default function Footer() {
         <div>
           <div className="flex justify-center items-center">
             <div className="pl-3 text-lg  cursor-pointer ">
-              <FaFacebook />
+              <a href="https://www.facebook.com/share/15AUu1FyLG/" target="_blank"><FaFacebook /></a>
             </div>
             <div className="pl-3 text-lg  cursor-pointer ">
-              <FaInstagram />
+              <a href="https://www.instagram.com/_.we_k?igsh=MWZ2aTk3eTh0MXgzMw==" target="_blank"><FaInstagram /></a>
             </div>
             <div className="pl-3 text-lg  cursor-pointer ">
-              <FaWhatsapp />
+              <a href="https://wa.me/9647778684131" target="_blank"><FaWhatsapp /></a>
             </div>
           </div>
           <p className="text-center pt-1">جميع الحقوق محفوظة 2025@</p>

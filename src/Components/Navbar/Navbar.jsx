@@ -2,7 +2,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { FaBars, FaRegUser, FaSignInAlt, FaTimes } from "react-icons/fa";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import mainLogo from "../../assets/logo.jpg";
+import mainLogo from "../../assets/mainlogo.jpg";
 import { UserTokenContext } from "../../Context/userTokenContext";
 
 const Navbar = () => {
@@ -38,7 +38,7 @@ const Navbar = () => {
             <img
               src={mainLogo}
               alt="Main Logo"
-              className="w-40 h-full rounded-md"
+              className="w-28 rounded-md"
             />
           </Link>
         </div>
