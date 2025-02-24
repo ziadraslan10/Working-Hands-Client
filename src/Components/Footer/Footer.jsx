@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { FaFacebook, FaInstagram, FaWhatsapp } from "react-icons/fa";
+import { AiFillTikTok } from "react-icons/ai";
 import { Link } from "react-router-dom";
 export default function Footer() {
   return (
@@ -30,6 +31,9 @@ export default function Footer() {
             </div>
             <div className="pl-3 text-lg  cursor-pointer ">
               <a href="https://www.instagram.com/_.we_k?igsh=MWZ2aTk3eTh0MXgzMw==" target="_blank"><FaInstagram /></a>
+            </div>
+            <div className="pl-3 text-lg  cursor-pointer ">
+              <a href="https://www.tiktok.com/@.smart.alrasd?_t=ZS-8uAGQCWqa0N&_r=1" target="_blank"><AiFillTikTok /></a>
             </div>
             <div className="pl-3 text-lg  cursor-pointer ">
               <a href="https://wa.me/9647778684131" target="_blank"><FaWhatsapp /></a>

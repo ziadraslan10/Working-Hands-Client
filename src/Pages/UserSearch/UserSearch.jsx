@@ -134,7 +134,7 @@ function UserSearch() {
                 {labels.length > 0 ? labels[1].label + " : " : ""}
               </span>
               <span className="font-semibold mr-1"></span>
-              {userData.height} سم
+              {userData.height} 
             </p>
             <p className="flex items-center">
               <img src={privatenumber} width={15} />

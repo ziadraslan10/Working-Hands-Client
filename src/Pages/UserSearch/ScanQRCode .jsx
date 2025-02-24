@@ -120,7 +120,7 @@ const ScanQRCode = () => {
                 <span className="font-semibold mr-1">{labels.length > 0
                   ? labels[1].label + " : "
                   : ""}</span>
-                {scannedData.height} سم
+                {scannedData.height}
               </p>
               <p className="flex items-center">
                 <img src={privatenumber} width={15} />
@@ -133,6 +133,9 @@ const ScanQRCode = () => {
               <span className="font-semibold mr-1">البريد الإلكتروني:</span>
               {userData.email}
             </p> */}
+              <div>
+                <p className=" font-bold text-xl">بيانات الاتصال :</p>
+              </div>
               <p className="flex items-center">
                 <FaPhone className="ml-2" />
                 <span className="font-semibold mr-1">رقم الهاتف:</span>
