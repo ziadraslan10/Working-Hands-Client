@@ -39,7 +39,7 @@ export default function Footer() {
               <a href="https://wa.me/9647778684131" target="_blank"><FaWhatsapp /></a>
             </div>
           </div>
-          <p className="text-center pt-1">جميع الحقوق محفوظة 2025@</p>
+          <p className="text-center pt-1">جميع الحقوق محفوظة 2025©</p>
         </div>
       </div>
     </>
